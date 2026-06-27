@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "exportedAt": "2026-05-24T11:27:52.859Z",
+  "state": {
+    "targetRank": 8,
+    "build": "physical",
+    "completed": {
+      "armor": {
+        "stock": 0
+      },
+      "hat": {
+        "stock": 0
+      },
+      "shinyAccessory": {
+        "stock": 0
+      },
+      "fancyAccessory": {
+        "stock": 0
+      }
+    },
+    "materials": {
+      "r7-fancyAccessory-fragment": 0,
+      "r7-armor-fragment": 0,
+      "r7-physicalWeapon-fragment": 115,
+      "r7-hat-fragment": 0,
+      "r7-boots-fragment": 3,
+      "r7-shinyAccessory-fragment": 2,
+      "r8-shinyAccessory-blueprint": 33,
+      "r8-fancyAccessory-blueprint": 46,
+      "r8-armor-blueprint": 46,
+      "r8-hat-blueprint": 46,
+      "r8-boots-blueprint": 47,
+      "r8-physicalWeapon-blueprint": 46,
+      "r2-armor-blueprint": 4,
+      "r2-boots-blueprint": 10,
+      "r2-fancyAccessory-blueprint": 7,
+      "r2-hat-blueprint": 1,
+      "r3-fancyAccessory-blueprint": 0,
+      "r3-boots-blueprint": 0,
+      "r2-physicalWeapon-blueprint": 5,
+      "r3-physicalWeapon-blueprint": 0,
+      "r3-shinyAccessory-blueprint": 2,
+      "r2-shinyAccessory-blueprint": 10,
+      "r3-armor-blueprint": 1,
+      "r2-magicWeapon-blueprint": 5,
+      "r3-magicWeapon-blueprint": 18,
+      "r4-physicalWeapon-fragment": 1,
+      "r6-physicalWeapon-blueprint": 6,
+      "r6-magicWeapon-blueprint": 18,
+      "r6-boots-blueprint": 4,
+      "r6-shinyAccessory-blueprint": 1,
+      "r6-fancyAccessory-blueprint": 5,
+      "r5-physicalWeapon-blueprint": 4,
+      "r5-armor-blueprint": 0,
+      "r5-boots-blueprint": 1,
+      "r5-shinyAccessory-blueprint": 7,
+      "r5-hat-blueprint": 4,
+      "r5-fancyAccessory-blueprint": 0,
+      "r4-hat-fragment": 2,
+      "r4-boots-fragment": 1,
+      "r4-shinyAccessory-fragment": 1
+    }
+  }
+}
