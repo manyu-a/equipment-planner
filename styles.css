@@ -115,31 +115,12 @@ button:active,
   background: rgba(10, 25, 24, 0.42);
 }
 
-.network-dialog {
-  width: min(96vw, 1500px);
-  height: min(92vh, 1000px);
-  max-width: none;
-  max-height: none;
-  padding: 0;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--panel);
-  color: var(--ink);
-  box-shadow: 0 24px 70px rgba(13, 34, 32, 0.32);
-}
-
-.network-dialog::backdrop {
-  background: rgba(10, 25, 24, 0.58);
-}
-
-.network-dialog-content {
+.network-panel-content {
   position: relative;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: 12px;
-  height: 100%;
-  padding: 16px;
+  min-height: min(720px, calc(100dvh - 180px));
 }
 
 .network-material-editor {
@@ -204,28 +185,26 @@ button:active,
   line-height: 1.2;
 }
 
-.network-dialog-head {
+.network-panel-head {
   display: flex;
   align-items: start;
   justify-content: space-between;
   gap: 16px;
 }
 
-.network-dialog-head h2,
-.network-dialog-head p {
+.network-panel-head h3,
+.network-panel-head p {
   margin: 0;
 }
 
-.network-dialog-head p {
+.network-panel-head h3 {
+  font-size: 18px;
+}
+
+.network-panel-head p {
   margin-top: 3px;
   color: var(--muted);
   font-size: 13px;
-}
-
-.network-dialog-head button {
-  flex: 0 0 auto;
-  min-height: 36px;
-  padding: 5px 12px;
 }
 
 .settings-panel {
@@ -314,6 +293,10 @@ input[type="number"] {
 .equipment-panel,
 .summary-panel {
   padding: 14px;
+}
+
+.summary-panel.is-network-mode {
+  grid-column: 1 / -1;
 }
 
 .summary-head {
@@ -738,7 +721,7 @@ input.compact-number {
 
 .summary-tabs {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 12px;
 }
@@ -1362,13 +1345,8 @@ input.compact-number {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .network-dialog {
-    width: calc(100vw - 12px);
-    height: calc(100dvh - 12px);
-  }
-
-  .network-dialog-content {
-    padding: 10px;
+  .network-panel-content {
+    min-height: min(680px, calc(100dvh - 150px));
   }
 
   .network-workspace {
@@ -1467,7 +1445,7 @@ input.compact-number {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .network-dialog-head p {
+  .network-panel-head p {
     display: none;
   }
 

@@ -50,9 +50,6 @@ const inputModeSelect = document.querySelector("#inputModeSelect");
 const autoCalculateSelect = document.querySelector("#autoCalculateSelect");
 const settingsButton = document.querySelector("#settingsButton");
 const settingsDialog = document.querySelector("#settingsDialog");
-const networkDialog = document.querySelector("#networkDialog");
-const networkOpenButton = document.querySelector("#networkOpenButton");
-const networkCloseButton = document.querySelector("#networkCloseButton");
 const calculateButton = document.querySelector("#calculateButton");
 const consumeEquipmentButton = document.querySelector("#consumeEquipmentButton");
 const equipmentGrid = document.querySelector("#equipmentGrid");
@@ -60,12 +57,14 @@ const materialInventory = document.querySelector("#materialInventory");
 const tomeSummary = document.querySelector("#tomeSummary");
 const shortageSummary = document.querySelector("#shortageSummary");
 const recommendations = document.querySelector("#recommendations");
+const summaryPanel = document.querySelector(".summary-panel");
 const equipmentTabs = document.querySelectorAll("[data-equipment-tab]");
 const equipmentSlotsPanel = document.querySelector("#equipmentSlotsPanel");
 const materialInventoryPanel = document.querySelector("#materialInventoryPanel");
 const summaryTabs = document.querySelectorAll("[data-summary-tab]");
 const recommendationsPanel = document.querySelector("#recommendationsPanel");
 const shortagesPanel = document.querySelector("#shortagesPanel");
+const networkPanel = document.querySelector("#networkPanel");
 const networkGroupSelect = document.querySelector("#networkGroupSelect");
 const networkGraph = document.querySelector("#networkGraph");
 const networkDetails = document.querySelector("#networkDetails");
@@ -149,14 +148,6 @@ function init() {
   settingsDialog.addEventListener("click", (event) => {
     if (event.target === settingsDialog) settingsDialog.close();
   });
-  networkOpenButton.addEventListener("click", () => {
-    networkDialog.showModal();
-    requestAnimationFrame(() => renderExplorationNetwork(calculateNeeds().shortages));
-  });
-  networkCloseButton.addEventListener("click", () => networkDialog.close());
-  networkDialog.addEventListener("click", (event) => {
-    if (event.target === networkDialog) networkDialog.close();
-  });
   equipmentTabs.forEach((tab) => {
     tab.addEventListener("click", () => activateEquipmentTab(tab.dataset.equipmentTab));
   });
@@ -208,6 +199,18 @@ function activateSummaryTab(tabName) {
   summaryTabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.summaryTab === tabName));
   recommendationsPanel.classList.toggle("is-hidden", tabName !== "recommendations");
   shortagesPanel.classList.toggle("is-hidden", tabName !== "shortages");
+  networkPanel.classList.toggle("is-hidden", tabName !== "network");
+  summaryPanel.classList.toggle("is-network-mode", tabName === "network");
+
+  if (tabName === "network") {
+    requestAnimationFrame(() => renderExplorationNetwork(calculateNeeds().shortages));
+  } else {
+    closeNetworkMaterialEditor();
+  }
+}
+
+function isSummaryTabActive(tabName) {
+  return [...summaryTabs].some((tab) => tab.dataset.summaryTab === tabName && tab.classList.contains("is-active"));
 }
 
 function createDefaultState() {
@@ -387,7 +390,9 @@ function render() {
   } else {
     updateRecommendationDynamicValues(needs.shortages);
   }
-  renderExplorationNetwork(needs.shortages);
+  if (isSummaryTabActive("network")) {
+    renderExplorationNetwork(needs.shortages);
+  }
 }
 
 function updateCalculationControls() {

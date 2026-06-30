@@ -47,74 +47,6 @@
     </form>
   </dialog>
 
-  <dialog class="network-dialog" id="networkDialog">
-    <div class="network-dialog-content">
-      <div class="network-dialog-head">
-        <div>
-          <h2>探索ネットワーク</h2>
-          <p>不足素材、候補ステージ、採用された組み合わせと評価値を確認します。</p>
-        </div>
-        <button id="networkCloseButton" type="button" class="ghost-button">閉じる</button>
-      </div>
-      <div class="network-toolbar">
-        <label>
-          <span>素材グループ</span>
-          <select id="networkGroupSelect"></select>
-        </label>
-      </div>
-      <div class="network-workspace">
-        <div id="networkGraph" class="network-graph"></div>
-        <div class="network-side-tools">
-          <div class="network-view-actions" aria-label="ネットワーク表示操作">
-            <button id="networkZoomOutButton" type="button" class="ghost-button" aria-label="縮小" title="縮小">−</button>
-            <button id="networkZoomInButton" type="button" class="ghost-button" aria-label="拡大" title="拡大">＋</button>
-            <button id="networkResetViewButton" type="button" class="ghost-button">全体表示</button>
-            <button id="networkResetLayoutButton" type="button" class="ghost-button">配置を戻す</button>
-          </div>
-          <div class="network-info-strip">
-            <div id="networkStoneSummary" class="network-stone-summary" aria-live="polite"></div>
-            <details class="network-legend">
-              <summary>説明</summary>
-              <div class="network-legend-body" aria-label="ネットワーク凡例">
-                <span><i class="legend-node is-primary"></i>対象素材</span>
-                <span><i class="legend-node"></i>関連素材</span>
-                <span><i class="legend-node is-off-build"></i>現在の型では対象外</span>
-                <span><i class="legend-line is-selected"></i>採用</span>
-                <span><i class="legend-line is-manual"></i>手動選択</span>
-                <span><i class="legend-line"></i>候補</span>
-                <span><i class="legend-line is-double"></i>同素材2枠</span>
-              </div>
-            </details>
-          </div>
-        </div>
-        <div class="network-selection-actions" aria-label="手動選択操作">
-          <button id="networkUseAdoptedButton" type="button" class="ghost-button">採用を選択</button>
-          <button id="networkRestoreSelectionButton" type="button" class="ghost-button">保存済みに戻す</button>
-          <button id="networkSaveSelectionButton" type="button">選択を保存</button>
-        </div>
-        <div id="networkDetails" class="network-details"></div>
-      </div>
-      <div id="networkMaterialEditor" class="network-material-editor" hidden>
-        <div class="network-material-editor-head">
-          <img id="networkMaterialEditorImage" src="" alt="">
-          <div>
-            <strong id="networkMaterialEditorTitle"></strong>
-            <span id="networkMaterialEditorCurrent"></span>
-          </div>
-        </div>
-        <label>
-          <span>所持数</span>
-          <span id="networkMaterialEditorControl"></span>
-        </label>
-        <div class="network-material-editor-actions">
-          <button id="networkMaterialEditorCancel" type="button" class="ghost-button">キャンセル</button>
-          <button id="networkMaterialEditorMax" type="button" class="ghost-button">Max</button>
-          <button id="networkMaterialEditorSave" type="button">反映</button>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
   <main class="layout">
     <section class="band controls-band">
       <div class="field">
@@ -151,7 +83,6 @@
         <div class="summary-head">
           <h2>サマリー</h2>
           <div class="summary-actions">
-            <button id="networkOpenButton" type="button" class="ghost-button">ネットワーク</button>
             <button id="calculateButton" type="button" class="ghost-button" hidden>計算</button>
           </div>
         </div>
@@ -159,12 +90,79 @@
         <div class="summary-tabs" role="tablist" aria-label="サマリー表示">
           <button type="button" class="summary-tab is-active" data-summary-tab="recommendations">おすすめ周回</button>
           <button type="button" class="summary-tab" data-summary-tab="shortages">不足まとめ</button>
+          <button type="button" class="summary-tab" data-summary-tab="network">探索ネットワーク</button>
         </div>
         <div id="recommendationsPanel" class="summary-tab-panel">
           <div id="recommendations" class="recommendations"></div>
         </div>
         <div id="shortagesPanel" class="summary-tab-panel is-hidden">
           <div id="shortageSummary" class="shortage-summary"></div>
+        </div>
+        <div id="networkPanel" class="summary-tab-panel network-panel is-hidden">
+          <div class="network-panel-content">
+            <div class="network-panel-head">
+              <div>
+                <h3>探索ネットワーク</h3>
+                <p>不足素材、候補ステージ、採用された組み合わせと評価値を確認します。</p>
+              </div>
+            </div>
+            <div class="network-toolbar">
+              <label>
+                <span>素材グループ</span>
+                <select id="networkGroupSelect"></select>
+              </label>
+            </div>
+            <div class="network-workspace">
+              <div id="networkGraph" class="network-graph"></div>
+              <div class="network-side-tools">
+                <div class="network-view-actions" aria-label="ネットワーク表示操作">
+                  <button id="networkZoomOutButton" type="button" class="ghost-button" aria-label="縮小" title="縮小">−</button>
+                  <button id="networkZoomInButton" type="button" class="ghost-button" aria-label="拡大" title="拡大">＋</button>
+                  <button id="networkResetViewButton" type="button" class="ghost-button">全体表示</button>
+                  <button id="networkResetLayoutButton" type="button" class="ghost-button">配置を戻す</button>
+                </div>
+                <div class="network-info-strip">
+                  <div id="networkStoneSummary" class="network-stone-summary" aria-live="polite"></div>
+                  <details class="network-legend">
+                    <summary>説明</summary>
+                    <div class="network-legend-body" aria-label="ネットワーク凡例">
+                      <span><i class="legend-node is-primary"></i>対象素材</span>
+                      <span><i class="legend-node"></i>関連素材</span>
+                      <span><i class="legend-node is-off-build"></i>現在の型では対象外</span>
+                      <span><i class="legend-line is-selected"></i>採用</span>
+                      <span><i class="legend-line is-manual"></i>手動選択</span>
+                      <span><i class="legend-line"></i>候補</span>
+                      <span><i class="legend-line is-double"></i>同素材2枠</span>
+                    </div>
+                  </details>
+                </div>
+              </div>
+              <div class="network-selection-actions" aria-label="手動選択操作">
+                <button id="networkUseAdoptedButton" type="button" class="ghost-button">採用を選択</button>
+                <button id="networkRestoreSelectionButton" type="button" class="ghost-button">保存済みに戻す</button>
+                <button id="networkSaveSelectionButton" type="button">選択を保存</button>
+              </div>
+              <div id="networkDetails" class="network-details"></div>
+            </div>
+            <div id="networkMaterialEditor" class="network-material-editor" hidden>
+              <div class="network-material-editor-head">
+                <img id="networkMaterialEditorImage" src="" alt="">
+                <div>
+                  <strong id="networkMaterialEditorTitle"></strong>
+                  <span id="networkMaterialEditorCurrent"></span>
+                </div>
+              </div>
+              <label>
+                <span>所持数</span>
+                <span id="networkMaterialEditorControl"></span>
+              </label>
+              <div class="network-material-editor-actions">
+                <button id="networkMaterialEditorCancel" type="button" class="ghost-button">キャンセル</button>
+                <button id="networkMaterialEditorMax" type="button" class="ghost-button">Max</button>
+                <button id="networkMaterialEditorSave" type="button">反映</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
