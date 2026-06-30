@@ -1350,19 +1350,15 @@ input.compact-number {
   }
 
   .network-workspace {
-    grid-template-columns: calc(100vw - 34px) 360px;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
     min-width: 0;
-    overflow-x: auto;
-    overflow-y: auto;
-    overscroll-behavior-inline: contain;
-    scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
   }
 
   .network-graph {
     grid-column: 1;
-    grid-row: 1 / span 3;
+    grid-row: 1;
     min-height: 0;
     overflow: hidden;
   }
@@ -1372,22 +1368,23 @@ input.compact-number {
   }
 
   .network-side-tools {
-    grid-column: 2;
-    grid-row: 1;
-    min-width: 360px;
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
   }
 
   .network-details {
-    grid-column: 2;
-    grid-row: 3;
-    min-width: 360px;
+    grid-column: 1;
+    grid-row: 4;
+    min-width: 0;
+    max-height: 420px;
     overflow: auto;
   }
 
   .network-selection-actions {
-    grid-column: 2;
-    grid-row: 2;
-    min-width: 360px;
+    grid-column: 1;
+    grid-row: 3;
+    min-width: 0;
   }
 }
 
