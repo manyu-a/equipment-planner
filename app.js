@@ -1328,6 +1328,7 @@ function buildComparisonNetworkGroup(rank, comparisonBatch) {
     Math.max(1, maxOwned + comparisonBatch - materialCount(material.id)),
   ]));
   const offBuildMaterialIds = new Set(materials.filter(isOffBuildWeapon).map((material) => material.id));
+  const completedMaterialIds = completedNetworkMaterialIds(materials);
   const kind = materials[0].kind;
   return {
     key: `network-rank:${rank}:${kind}:${state.build}`,
@@ -1339,6 +1340,7 @@ function buildComparisonNetworkGroup(rank, comparisonBatch) {
     displayAmounts: new Map(shortages),
     primaryMaterialIds: new Set([...shortages.keys()].filter((id) => !offBuildMaterialIds.has(id))),
     offBuildMaterialIds,
+    completedMaterialIds,
   };
 }
 
@@ -1356,18 +1358,30 @@ function completeNetworkGroupWeapons(group) {
     group.shortages.get(material.id) || 0,
   ]));
   const offBuildMaterialIds = new Set(materials.filter(isOffBuildWeapon).map((material) => material.id));
+  const completedMaterialIds = completedNetworkMaterialIds(materials);
   return {
     ...group,
     shortages,
     displayAmounts,
     primaryMaterialIds: new Set([...shortages.keys()].filter((id) => !offBuildMaterialIds.has(id))),
     offBuildMaterialIds,
+    completedMaterialIds,
   };
+}
+
+function completedNetworkMaterialIds(materials) {
+  const selected = new Set(selectedSlots());
+  return new Set(
+    materials
+      .filter((material) => selected.has(material.slot) && completedFor(material.slot) >= 1)
+      .map((material) => material.id)
+  );
 }
 
 function combineNetworkGroups(groups, label) {
   const primary = groups.find((group) => group.rank === state.targetRank) || groups[0];
   const offBuildMaterialIds = new Set(groups.flatMap((group) => [...(group.offBuildMaterialIds || [])]));
+  const completedMaterialIds = new Set(groups.flatMap((group) => [...(group.completedMaterialIds || [])]));
   return {
     key: `network-combined:${groups.map((group) => group.key).join("+")}`,
     label,
@@ -1377,6 +1391,7 @@ function combineNetworkGroups(groups, label) {
     displayAmounts: new Map(groups.flatMap((group) => [...(group.displayAmounts || group.shortages)])),
     primaryMaterialIds: new Set([...primary.shortages.keys()].filter((id) => !offBuildMaterialIds.has(id))),
     offBuildMaterialIds,
+    completedMaterialIds,
     usesCombinedSavedPlans: true,
     isMultiRankNetwork: true,
   };
@@ -1496,6 +1511,7 @@ function renderNetworkSvg(group, graph, selection) {
 
   const primaryIds = group.primaryMaterialIds || new Set(group.shortages.keys());
   const offBuildIds = group.offBuildMaterialIds || new Set();
+  const completedIds = group.completedMaterialIds || new Set();
   const nodeElements = new Map();
   graph.nodes.forEach((id) => {
     const material = byMaterial.get(id);
@@ -1507,14 +1523,17 @@ function renderNetworkSvg(group, graph, selection) {
         "network-node",
         primaryIds.has(id) ? "is-primary" : "",
         offBuildIds.has(id) ? "is-off-build" : "",
+        completedIds.has(id) && !offBuildIds.has(id) ? "is-complete-excluded" : "",
       ].filter(Boolean).join(" "),
       transform: `translate(${position.x} ${position.y})`,
     });
     const ownedAmount = materialCount(id);
     const limitAmount = networkMaterialMax(id);
     const amountLabel = offBuildIds.has(id)
-      ? `${ownedAmount}/${limitAmount}`
-      : `${ownedAmount}/${limitAmount}`;
+      ? `対象外 ${ownedAmount}/${limitAmount}`
+      : completedIds.has(id)
+        ? `完成済み ${ownedAmount}/${limitAmount}`
+        : `${ownedAmount}/${limitAmount}`;
     node.append(createSvgElement("title", {}, `${materialName(material)} / ${amountLabel}`));
     node.append(createSvgElement("rect", {
       class: "network-node-frame",

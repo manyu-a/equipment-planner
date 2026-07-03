@@ -1099,6 +1099,25 @@ input.compact-number {
   opacity: 0.58;
 }
 
+.network-node.is-complete-excluded .network-node-frame {
+  fill: #eef6fb;
+  stroke: var(--blue);
+  stroke-width: 3;
+  stroke-dasharray: 6 3;
+}
+
+.network-node.is-complete-excluded .network-node-title {
+  fill: #315a91;
+}
+
+.network-node.is-complete-excluded .network-node-amount {
+  fill: #315a91;
+}
+
+.network-node.is-complete-excluded image {
+  opacity: 0.62;
+}
+
 .network-node image {
   pointer-events: none;
 }
