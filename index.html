@@ -38,6 +38,13 @@
             <option value="off">オフ</option>
           </select>
         </div>
+        <div class="field">
+          <label for="networkPlacementSelect">探索ネットワーク表示</label>
+          <select id="networkPlacementSelect">
+            <option value="summary">サマリータブ</option>
+            <option value="standalone">独立表示</option>
+          </select>
+        </div>
         <button id="exportButton" type="button">エクスポート</button>
         <label class="file-button">
           インポート
@@ -60,8 +67,7 @@
           <option value="magic">魔法</option>
         </select>
       </div>
-      <button id="resetButton" type="button" class="ghost-button">入力を初期化</button>
-      <button id="consumeEquipmentButton" type="button" class="ghost-button">装備を消費</button>
+      <button id="consumeEquipmentButton" type="button" class="ghost-button">全装備を装着して消費</button>
     </section>
 
     <section class="planner-grid">
@@ -103,7 +109,6 @@
             <div class="network-panel-head">
               <div>
                 <h3>探索ネットワーク</h3>
-                <p>不足素材、候補ステージ、採用された組み合わせと評価値を確認します。</p>
               </div>
             </div>
             <div class="network-toolbar">
@@ -166,6 +171,7 @@
         </div>
       </div>
     </section>
+    <section id="standaloneNetworkDock" class="network-standalone-dock"></section>
   </main>
 
   <script src="./data/equipment-data.js"></script>

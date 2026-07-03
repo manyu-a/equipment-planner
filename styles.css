@@ -243,7 +243,8 @@ button:active,
 
 .band,
 .equipment-panel,
-.summary-panel {
+.summary-panel,
+.network-standalone-dock:not(:empty) {
   min-width: 0;
   background: var(--panel);
   border: 1px solid var(--line);
@@ -291,7 +292,8 @@ input[type="number"] {
 }
 
 .equipment-panel,
-.summary-panel {
+.summary-panel,
+.network-standalone-dock:not(:empty) {
   padding: 14px;
 }
 
@@ -726,6 +728,10 @@ input.compact-number {
   margin-bottom: 12px;
 }
 
+.summary-tabs:has([data-summary-tab="network"][hidden]) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .summary-tab {
   min-height: 40px;
   border-color: var(--line);
@@ -743,6 +749,16 @@ input.compact-number {
   display: none;
 }
 
+.summary-panel.has-standalone-network.is-height-synced .summary-tab-panel:not(.is-hidden) {
+  max-height: var(--summary-active-panel-max);
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.network-standalone-dock:not(:empty) {
+  margin: 16px 0;
+}
+
 .network-toolbar {
   display: flex;
   align-items: end;
@@ -753,7 +769,7 @@ input.compact-number {
 
 .network-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.8fr);
+  grid-template-columns: minmax(480px, 1fr) minmax(320px, 340px);
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: 12px;
   min-height: 0;
@@ -1096,7 +1112,7 @@ input.compact-number {
 
 .network-node-amount {
   fill: var(--red);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 900;
   text-anchor: middle;
 }

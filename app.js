@@ -48,12 +48,15 @@ const rankSelect = document.querySelector("#rankSelect");
 const buildSelect = document.querySelector("#buildSelect");
 const inputModeSelect = document.querySelector("#inputModeSelect");
 const autoCalculateSelect = document.querySelector("#autoCalculateSelect");
+const networkPlacementSelect = document.querySelector("#networkPlacementSelect");
 const settingsButton = document.querySelector("#settingsButton");
 const settingsDialog = document.querySelector("#settingsDialog");
 const calculateButton = document.querySelector("#calculateButton");
 const consumeEquipmentButton = document.querySelector("#consumeEquipmentButton");
+const equipmentPanel = document.querySelector(".equipment-panel");
 const equipmentGrid = document.querySelector("#equipmentGrid");
 const materialInventory = document.querySelector("#materialInventory");
+const standaloneNetworkDock = document.querySelector("#standaloneNetworkDock");
 const tomeSummary = document.querySelector("#tomeSummary");
 const shortageSummary = document.querySelector("#shortageSummary");
 const recommendations = document.querySelector("#recommendations");
@@ -62,6 +65,7 @@ const equipmentTabs = document.querySelectorAll("[data-equipment-tab]");
 const equipmentSlotsPanel = document.querySelector("#equipmentSlotsPanel");
 const materialInventoryPanel = document.querySelector("#materialInventoryPanel");
 const summaryTabs = document.querySelectorAll("[data-summary-tab]");
+const networkTab = document.querySelector('[data-summary-tab="network"]');
 const recommendationsPanel = document.querySelector("#recommendationsPanel");
 const shortagesPanel = document.querySelector("#shortagesPanel");
 const networkPanel = document.querySelector("#networkPanel");
@@ -92,6 +96,7 @@ const networkSelectionDrafts = new Map();
 let suppressNetworkEdgeClickUntil = 0;
 let suppressNetworkNodeClickUntil = 0;
 let editingNetworkMaterialId = "";
+let summaryHeightObserver = null;
 
 init();
 
@@ -107,6 +112,7 @@ function init() {
   buildSelect.value = state.build;
   inputModeSelect.value = state.inputMode;
   autoCalculateSelect.value = state.autoCalculate ? "on" : "off";
+  networkPlacementSelect.value = state.networkPlacement;
   updateCalculationControls();
 
   rankSelect.addEventListener("change", () => {
@@ -129,14 +135,8 @@ function init() {
     persistAndRender();
   });
 
-  document.querySelector("#resetButton").addEventListener("click", () => {
-    if (!confirm("入力を初期化しますか？")) return;
-    localStorage.removeItem(STORAGE_KEY);
-    Object.assign(state, createDefaultState());
-    rankSelect.value = String(state.targetRank);
-    buildSelect.value = state.build;
-    inputModeSelect.value = state.inputMode;
-    autoCalculateSelect.value = state.autoCalculate ? "on" : "off";
+  networkPlacementSelect.addEventListener("change", () => {
+    state.networkPlacement = networkPlacementSelect.value;
     persistAndRender();
   });
 
@@ -179,6 +179,7 @@ function init() {
       closeNetworkMaterialEditor();
     }
   });
+  setupSummaryHeightSync();
 
   render();
 }
@@ -196,11 +197,15 @@ function activateEquipmentTab(tabName) {
 }
 
 function activateSummaryTab(tabName) {
+  if (tabName === "network" && state.networkPlacement !== "summary") {
+    tabName = "recommendations";
+  }
   summaryTabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.summaryTab === tabName));
   recommendationsPanel.classList.toggle("is-hidden", tabName !== "recommendations");
   shortagesPanel.classList.toggle("is-hidden", tabName !== "shortages");
   networkPanel.classList.toggle("is-hidden", tabName !== "network");
   summaryPanel.classList.toggle("is-network-mode", tabName === "network");
+  applyNetworkPlacement();
 
   if (tabName === "network") {
     requestAnimationFrame(() => renderExplorationNetwork(calculateNeeds().shortages));
@@ -213,12 +218,104 @@ function isSummaryTabActive(tabName) {
   return [...summaryTabs].some((tab) => tab.dataset.summaryTab === tabName && tab.classList.contains("is-active"));
 }
 
+function isNetworkStandalone() {
+  return state.networkPlacement === "standalone";
+}
+
+function isNetworkVisible() {
+  return isNetworkStandalone() || isSummaryTabActive("network");
+}
+
+function applyNetworkPlacement() {
+  if (isNetworkStandalone()) {
+    if (networkPanel.parentElement !== standaloneNetworkDock) {
+      standaloneNetworkDock.append(networkPanel);
+    }
+    networkPanel.classList.add("is-standalone");
+    networkTab.hidden = true;
+    networkPanel.classList.remove("is-hidden");
+    summaryPanel.classList.add("has-standalone-network");
+    summaryPanel.classList.remove("is-network-mode");
+    if (isSummaryTabActive("network")) {
+      summaryTabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.summaryTab === "recommendations"));
+      recommendationsPanel.classList.remove("is-hidden");
+      shortagesPanel.classList.add("is-hidden");
+    }
+    syncSummaryHeightToEquipment();
+    return;
+  }
+
+  if (networkPanel.parentElement !== summaryPanel) {
+    shortagesPanel.after(networkPanel);
+  }
+  networkPanel.classList.remove("is-standalone");
+  networkTab.hidden = false;
+  summaryPanel.classList.remove("has-standalone-network");
+  summaryPanel.style.removeProperty("--summary-active-panel-max");
+  const networkActive = isSummaryTabActive("network");
+  networkPanel.classList.toggle("is-hidden", !networkActive);
+  summaryPanel.classList.toggle("is-network-mode", networkActive);
+}
+
+function setupSummaryHeightSync() {
+  if (typeof ResizeObserver === "undefined") {
+    window.addEventListener("resize", syncSummaryHeightToEquipment);
+    return;
+  }
+
+  summaryHeightObserver = new ResizeObserver(() => syncSummaryHeightToEquipment());
+  summaryHeightObserver.observe(equipmentPanel);
+  summaryHeightObserver.observe(summaryPanel);
+  window.addEventListener("resize", syncSummaryHeightToEquipment);
+}
+
+function syncSummaryHeightToEquipment() {
+  if (!isNetworkStandalone()) {
+    summaryPanel.classList.remove("is-height-synced");
+    summaryPanel.style.removeProperty("--summary-active-panel-max");
+    return;
+  }
+
+  const equipmentRect = equipmentPanel.getBoundingClientRect();
+  const summaryRect = summaryPanel.getBoundingClientRect();
+  const isTwoColumn = Math.abs(equipmentRect.top - summaryRect.top) < 24;
+  if (!isTwoColumn) {
+    summaryPanel.classList.remove("is-height-synced");
+    summaryPanel.style.removeProperty("--summary-active-panel-max");
+    return;
+  }
+
+  const activePanel = summaryPanel.querySelector(".summary-tab-panel:not(.is-hidden)");
+  if (!activePanel) return;
+
+  const summaryStyle = getComputedStyle(summaryPanel);
+  const summaryVerticalPadding =
+    parseFloat(summaryStyle.paddingTop || "0") +
+    parseFloat(summaryStyle.paddingBottom || "0");
+  const usedHeight = [...summaryPanel.children]
+    .filter((child) => child !== activePanel && !child.classList.contains("is-hidden"))
+    .reduce((sum, child) => {
+      const style = getComputedStyle(child);
+      return sum +
+        child.getBoundingClientRect().height +
+        parseFloat(style.marginTop || "0") +
+        parseFloat(style.marginBottom || "0");
+    }, summaryVerticalPadding);
+  const maxPanelHeight = Math.max(160, Math.floor(equipmentRect.height - usedHeight));
+  const nextValue = `${maxPanelHeight}px`;
+  summaryPanel.classList.add("is-height-synced");
+  if (summaryPanel.style.getPropertyValue("--summary-active-panel-max") !== nextValue) {
+    summaryPanel.style.setProperty("--summary-active-panel-max", nextValue);
+  }
+}
+
 function createDefaultState() {
   return {
     targetRank: 8,
     build: "physical",
     inputMode: "direct",
     autoCalculate: true,
+    networkPlacement: "summary",
     completed: {},
     materials: {},
     recommendationPlans: {},
@@ -229,6 +326,7 @@ function createDefaultState() {
 function loadState() {
   try {
     const saved = { ...createDefaultState(), ...JSON.parse(localStorage.getItem(STORAGE_KEY)) };
+    if (saved.networkPlacement === "equipment") saved.networkPlacement = "standalone";
     migrateCompletedStock(saved);
     return saved;
   } catch {
@@ -293,15 +391,52 @@ function setCompleted(slot, value) {
 }
 
 function consumeCompletedEquipment() {
+  if (!confirm("不足している装備を素材から装着し、全6部位の装備を1セット消費します。実行しますか？")) return;
+
   const slots = displaySlots();
-  const missingSlots = slots.filter((slot) => completedFor(slot) < 1);
-  if (missingSlots.length > 0) {
-    alert(`在庫が足りない装備があります: ${missingSlots.map((slot) => SLOT_LABELS[slot]).join(" / ")}`);
+  const materialChanges = new Map();
+  const completedChanges = new Map(slots.map((slot) => [slot, completedFor(slot)]));
+  const missing = [];
+
+  slots.forEach((slot) => {
+    if ((completedChanges.get(slot) || 0) >= 1) return;
+
+    const slotRequirements = requirementsForRank()
+      .map((req) => ({
+        material: materialForRequirement(req, slot),
+        amount: getRequirementAmount(req),
+      }))
+      .filter((item) => item.material);
+
+    const slotMissing = slotRequirements.filter(({ material, amount }) => {
+      const available = materialCount(material.id) - (materialChanges.get(material.id) || 0);
+      return available < amount;
+    });
+
+    if (slotMissing.length > 0) {
+      missing.push(`${SLOT_LABELS[slot]}: ${slotMissing.map(({ material, amount }) => {
+        const available = materialCount(material.id) - (materialChanges.get(material.id) || 0);
+        return `${materialSlotName(material)} ${Math.max(0, amount - available)}`;
+      }).join(" / ")}`);
+      return;
+    }
+
+    slotRequirements.forEach(({ material, amount }) => {
+      materialChanges.set(material.id, (materialChanges.get(material.id) || 0) + amount);
+    });
+    completedChanges.set(slot, (completedChanges.get(slot) || 0) + 1);
+  });
+
+  if (missing.length > 0) {
+    alert(`装着に必要な素材が足りません。\n${missing.join("\n")}`);
     return;
   }
 
   slots.forEach((slot) => {
-    state.completed[slot] = { stock: Math.max(0, completedFor(slot) - 1) };
+    state.completed[slot] = { stock: Math.max(0, (completedChanges.get(slot) || 0) - 1) };
+  });
+  materialChanges.forEach((amount, materialId) => {
+    state.materials[materialId] = Math.max(0, materialCount(materialId) - amount);
   });
   persistAndRender();
 }
@@ -383,6 +518,7 @@ function render() {
   renderMaterialInventory();
   renderTomeSummary(needs.needs);
   renderShortages(needs.needs);
+  applyNetworkPlacement();
   updateCalculationControls();
   restoreRecommendationPlan(needs.shortages);
   if (state.autoCalculate) {
@@ -390,7 +526,7 @@ function render() {
   } else {
     updateRecommendationDynamicValues(needs.shortages);
   }
-  if (isSummaryTabActive("network")) {
+  if (isNetworkVisible()) {
     renderExplorationNetwork(needs.shortages);
   }
 }
@@ -1374,8 +1510,11 @@ function renderNetworkSvg(group, graph, selection) {
       ].filter(Boolean).join(" "),
       transform: `translate(${position.x} ${position.y})`,
     });
-    const displayedAmount = group.displayAmounts?.get(id) ?? group.shortages.get(id) ?? 0;
-    const amountLabel = offBuildIds.has(id) ? "現在の型では対象外" : `不足 ${displayedAmount}`;
+    const ownedAmount = materialCount(id);
+    const limitAmount = networkMaterialMax(id);
+    const amountLabel = offBuildIds.has(id)
+      ? `${ownedAmount}/${limitAmount}`
+      : `${ownedAmount}/${limitAmount}`;
     node.append(createSvgElement("title", {}, `${materialName(material)} / ${amountLabel}`));
     node.append(createSvgElement("rect", {
       class: "network-node-frame",
@@ -1401,7 +1540,7 @@ function renderNetworkSvg(group, graph, selection) {
       class: "network-node-amount",
       x: 0,
       y: 29,
-    }, offBuildIds.has(id) ? "対象外" : `不足 ${displayedAmount}`));
+    }, amountLabel));
     node.dataset.materialId = id;
     node.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -1760,7 +1899,14 @@ function setupNetworkInteraction(context) {
       return;
     }
     if (!drag || drag.pointerId !== event.pointerId) return;
-    if (drag.type === "node") nodeElements.get(drag.id)?.classList.remove("is-dragging");
+    if (drag.type === "node") {
+      const node = nodeElements.get(drag.id);
+      node?.classList.remove("is-dragging");
+      if (!drag.moved && event.pointerType === "mouse" && node) {
+        suppressNetworkNodeClickUntil = performance.now() + 350;
+        openNetworkMaterialEditor(drag.id, node);
+      }
+    }
     svg.classList.remove("is-panning", "is-workspace-scrolling");
     drag = null;
     saveState();
@@ -1834,11 +1980,16 @@ function setNetworkMaterialEditorMax() {
 }
 
 function networkMaterialMax(materialId) {
-  const currentNeed = calculateNeeds().needs.find((need) => need.material.id === materialId);
-  if (currentNeed) return currentNeed.required;
-
   const material = byMaterial.get(materialId);
   if (!material) return 0;
+
+  const targetRequirement = requirementsForRank().find((requirement) => (
+    requirement.materialRank === material.rank &&
+    requirement.kind === material.kind &&
+    materialForRequirement(requirement, material.slot)?.id === materialId
+  ));
+  if (targetRequirement) return getRequirementAmount(targetRequirement);
+
   return Math.max(
     0,
     ...DATA.requirements
@@ -2506,6 +2657,7 @@ function importState(event) {
       buildSelect.value = state.build;
       inputModeSelect.value = state.inputMode;
       autoCalculateSelect.value = state.autoCalculate ? "on" : "off";
+      networkPlacementSelect.value = state.networkPlacement;
       persistAndRender();
     } catch {
       alert("インポートできませんでした。JSONの内容を確認してください。");
