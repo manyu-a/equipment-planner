@@ -418,7 +418,6 @@ function consumeCompletedEquipment() {
         const available = materialCount(material.id) - (materialChanges.get(material.id) || 0);
         return `${materialSlotName(material)} ${Math.max(0, amount - available)}`;
       }).join(" / ")}`);
-      return;
     }
 
     slotRequirements.forEach(({ material, amount }) => {
@@ -428,8 +427,10 @@ function consumeCompletedEquipment() {
   });
 
   if (missing.length > 0) {
-    alert(`装着に必要な素材が足りません。\n${missing.join("\n")}`);
-    return;
+    const shouldContinue = confirm(
+      `装着に必要な素材が足りません。\n${missing.join("\n")}\n\n不足分は0未満にせず、所持数を0まで消費して装着扱いにします。続行しますか？`
+    );
+    if (!shouldContinue) return;
   }
 
   slots.forEach((slot) => {
