@@ -1,5 +1,5 @@
 ﻿{
-    "generatedAt":  "2026-06-12T23:26:26",
+    "generatedAt":  "2026-09-12T02:16:40",
     "source":  {
                    "html":  "装備設計図 - トリッカル・もちもちほっペ大作戦 Wiki_.html",
                    "assets":  "装備設計図 - トリッカル・もちもちほっペ大作戦 Wiki__files"
@@ -3007,6 +3007,54 @@
                        "drops":  [
                                      "r8-shinyAccessory-blueprint",
                                      "r9-boots-blueprint"
+                                 ]
+                   },
+                   {
+                       "id":  "31-3",
+                       "label":  "31-3",
+                       "drops":  [
+                                     "r9-boots-blueprint",
+                                     "r9-fancyAccessory-blueprint"
+                                 ]
+                   },
+                   {
+                       "id":  "31-8",
+                       "label":  "31-8",
+                       "drops":  [
+                                     "r9-armor-blueprint",
+                                     "r9-magicWeapon-blueprint"
+                                 ]
+                   },
+                   {
+                       "id":  "31-9",
+                       "label":  "31-9",
+                       "drops":  [
+                                     "r9-hat-blueprint",
+                                     "r9-shinyAccessory-blueprint"
+                                 ]
+                   },
+                   {
+                       "id":  "32-5",
+                       "label":  "32-5",
+                       "drops":  [
+                                     "r9-fancyAccessory-blueprint",
+                                     "r9-shinyAccessory-blueprint"
+                                 ]
+                   },
+                   {
+                       "id":  "32-8",
+                       "label":  "32-8",
+                       "drops":  [
+                                     "r9-armor-blueprint",
+                                     "r9-boots-blueprint"
+                                 ]
+                   },
+                   {
+                       "id":  "32-9",
+                       "label":  "32-9",
+                       "drops":  [
+                                     "r9-hat-blueprint",
+                                     "r9-physicalWeapon-blueprint"
                                  ]
                    }
                ]

@@ -87,7 +87,6 @@ const networkMaterialEditorCurrent = document.querySelector("#networkMaterialEdi
 const networkMaterialEditorControl = document.querySelector("#networkMaterialEditorControl");
 const networkMaterialEditorCancel = document.querySelector("#networkMaterialEditorCancel");
 const networkMaterialEditorMax = document.querySelector("#networkMaterialEditorMax");
-const networkMaterialEditorSave = document.querySelector("#networkMaterialEditorSave");
 let recommendationTimer = 0;
 let networkGroupKey = "";
 let activeNetworkController = null;
@@ -96,6 +95,8 @@ const networkSelectionDrafts = new Map();
 let suppressNetworkEdgeClickUntil = 0;
 let suppressNetworkNodeClickUntil = 0;
 let editingNetworkMaterialId = "";
+let editingNetworkMaterialOriginalValue = 0;
+let networkMaterialEditorDirty = false;
 let summaryHeightObserver = null;
 
 init();
@@ -165,19 +166,28 @@ function init() {
   networkUseAdoptedButton.addEventListener("click", useAdoptedNetworkSelection);
   networkRestoreSelectionButton.addEventListener("click", restoreSavedNetworkSelection);
   networkSaveSelectionButton.addEventListener("click", saveManualNetworkSelection);
-  networkMaterialEditorCancel.addEventListener("click", closeNetworkMaterialEditor);
+  networkMaterialEditorCancel.addEventListener("click", cancelNetworkMaterialEditor);
   networkMaterialEditorMax.addEventListener("click", setNetworkMaterialEditorMax);
-  networkMaterialEditorSave.addEventListener("click", saveNetworkMaterialEditor);
   networkMaterialEditor.addEventListener("click", (event) => event.stopPropagation());
   networkMaterialEditor.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      saveNetworkMaterialEditor();
+      finishNetworkMaterialEditor();
     }
     if (event.key === "Escape") {
       event.preventDefault();
-      closeNetworkMaterialEditor();
+      cancelNetworkMaterialEditor();
     }
+  });
+  document.addEventListener("click", (event) => {
+    if (
+      networkMaterialEditor.hidden ||
+      networkMaterialEditor.contains(event.target) ||
+      event.target.closest?.(".network-node")
+    ) {
+      return;
+    }
+    finishNetworkMaterialEditor();
   });
   setupSummaryHeightSync();
 
@@ -1009,27 +1019,10 @@ function renderRecommendations(shortages) {
 
 function planningGroups(shortages) {
   const groups = groupShortages(shortages);
-  const primary = groups.find((group) => group.rank === state.targetRank);
-
-  if (!primary) return groups;
-
-  if (state.targetRank === 9) {
-    const lower = groups.find((group) => group.rank === state.targetRank - 1);
-    if (!lower) return groups;
-
-    const combined = {
-      ...primary,
-      key: `${primary.key}+${lower.key}`,
-      label: `${primary.label} + ${lower.label}`,
-      shortages: new Map([...primary.shortages, ...lower.shortages]),
-      primaryMaterialIds: new Set(primary.shortages.keys()),
-    };
-    return groups
-      .filter((group) => group !== lower)
-      .map((group) => (group === primary ? combined : group));
-  }
-
   if (state.targetRank !== 8) return groups;
+
+  const primary = groups.find((group) => group.rank === state.targetRank);
+  if (!primary) return groups;
 
   const upperRank = state.targetRank + 1;
   const upperMaterials = selectedSlots()
@@ -1943,6 +1936,8 @@ function openNetworkMaterialEditor(materialId, node) {
 
   editingNetworkMaterialId = materialId;
   const current = materialCount(materialId);
+  editingNetworkMaterialOriginalValue = current;
+  networkMaterialEditorDirty = false;
   const maxRequired = Math.max(current, networkMaterialMax(materialId), 1);
   networkMaterialEditorImage.src = material.image;
   networkMaterialEditorImage.alt = materialName(material);
@@ -1972,6 +1967,8 @@ function openNetworkMaterialEditor(materialId, node) {
   networkMaterialEditor.style.top = `${top}px`;
 
   const control = networkMaterialEditorControl.querySelector("input, select");
+  const eventName = control?.tagName === "SELECT" ? "change" : "input";
+  control?.addEventListener(eventName, () => applyNetworkMaterialEditorValue(control.value));
   requestAnimationFrame(() => {
     control?.focus();
     if (control?.tagName === "INPUT") control.select();
@@ -1980,23 +1977,75 @@ function openNetworkMaterialEditor(materialId, node) {
 
 function closeNetworkMaterialEditor() {
   editingNetworkMaterialId = "";
+  editingNetworkMaterialOriginalValue = 0;
+  networkMaterialEditorDirty = false;
   networkMaterialEditor.hidden = true;
 }
 
-function saveNetworkMaterialEditor() {
+function finishNetworkMaterialEditor() {
   if (!editingNetworkMaterialId) return;
-  const control = networkMaterialEditorControl.querySelector("input, select");
-  const materialId = editingNetworkMaterialId;
+  const shouldRefresh = networkMaterialEditorDirty;
   closeNetworkMaterialEditor();
-  setMaterial(materialId, control?.value ?? 0);
+  if (shouldRefresh) persistAndRender();
+}
+
+function cancelNetworkMaterialEditor() {
+  if (!editingNetworkMaterialId) return;
+  const materialId = editingNetworkMaterialId;
+  const originalValue = editingNetworkMaterialOriginalValue;
+  const shouldRefresh = networkMaterialEditorDirty;
+  state.materials[materialId] = originalValue;
+  persistState();
+  closeNetworkMaterialEditor();
+  if (shouldRefresh) persistAndRender();
+}
+
+function applyNetworkMaterialEditorValue(value) {
+  if (!editingNetworkMaterialId) return;
+  const materialId = editingNetworkMaterialId;
+  const nextValue = toInt(value);
+  setMaterial(materialId, nextValue, { render: false });
+  networkMaterialEditorDirty = nextValue !== editingNetworkMaterialOriginalValue;
+  networkMaterialEditorCurrent.textContent = `現在 ${nextValue}`;
+  updateNetworkMaterialNodeAmount(materialId);
+
+  const needs = calculateNeeds();
+  renderEquipmentGrid(needs.needs);
+  renderMaterialInventory();
+  renderTomeSummary(needs.needs);
+  renderShortages(needs.needs);
+  updateCalculationControls();
+  restoreRecommendationPlan(needs.shortages);
+  if (state.autoCalculate) {
+    scheduleRecommendations(needs.shortages);
+  } else {
+    updateRecommendationDynamicValues(needs.shortages);
+  }
 }
 
 function setNetworkMaterialEditorMax() {
   if (!editingNetworkMaterialId) return;
-  const materialId = editingNetworkMaterialId;
-  const maxValue = networkMaterialMax(materialId);
-  closeNetworkMaterialEditor();
-  setMaterial(materialId, maxValue);
+  const maxValue = networkMaterialMax(editingNetworkMaterialId);
+  const control = networkMaterialEditorControl.querySelector("input, select");
+  if (control) control.value = String(maxValue);
+  applyNetworkMaterialEditorValue(maxValue);
+}
+
+function updateNetworkMaterialNodeAmount(materialId) {
+  const ownedAmount = materialCount(materialId);
+  const limitAmount = networkMaterialMax(materialId);
+  networkGraph.querySelectorAll(`.network-node[data-material-id="${materialId}"]`).forEach((node) => {
+    const amountLabel = node.classList.contains("is-off-build")
+      ? `対象外 ${ownedAmount}/${limitAmount}`
+      : node.classList.contains("is-complete-excluded")
+        ? `完成済み ${ownedAmount}/${limitAmount}`
+        : `${ownedAmount}/${limitAmount}`;
+    const amount = node.querySelector(".network-node-amount");
+    if (amount) amount.textContent = amountLabel;
+    const title = node.querySelector("title");
+    const material = byMaterial.get(materialId);
+    if (title && material) title.textContent = `${materialName(material)} / ${amountLabel}`;
+  });
 }
 
 function networkMaterialMax(materialId) {
