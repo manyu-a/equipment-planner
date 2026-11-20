@@ -1,6 +1,7 @@
 ﻿window.TRICKCAL_EQUIPMENT_DATA = {
-    "generatedAt":  "2026-09-12T02:16:40",
+    "generatedAt":  "2026-11-21T00:30:00",
     "source":  {
+                   "rank10": "https://soshage.com/trickcal/",
                    "html":  "装備設計図 - トリッカル・もちもちほっペ大作戦 Wiki_.html",
                    "assets":  "装備設計図 - トリッカル・もちもちほっペ大作戦 Wiki__files"
                },
@@ -686,6 +687,83 @@
                           "code":  97,
                           "name":  "Magic weapon Blueprint R9",
                           "image":  "assets/equipment/97_魔法武器の設計図9.webp"
+                      },
+                      {
+                        "id": "r10-armor-fragment",
+                        "rank": 10,
+                        "slot": "armor",
+                        "slotLabel": "Armor",
+                        "kind": "fragment",
+                        "kindLabel": "Shard",
+                        "code": 101,
+                        "name": "Armor Shard R10",
+                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Armor1003.webp"
+                      },
+                      {
+                        "id": "r10-hat-fragment",
+                        "rank": 10,
+                        "slot": "hat",
+                        "slotLabel": "Hat",
+                        "kind": "fragment",
+                        "kindLabel": "Shard",
+                        "code": 102,
+                        "name": "Hat Shard R10",
+                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Armor1001.webp"
+                      },
+                      {
+                        "id": "r10-shinyAccessory-fragment",
+                        "rank": 10,
+                        "slot": "shinyAccessory",
+                        "slotLabel": "Shiny accessory",
+                        "kind": "fragment",
+                        "kindLabel": "Shard",
+                        "code": 103,
+                        "name": "Shiny accessory Shard R10",
+                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Accessory1001.webp"
+                      },
+                      {
+                        "id": "r10-boots-fragment",
+                        "rank": 10,
+                        "slot": "boots",
+                        "slotLabel": "Boots",
+                        "kind": "fragment",
+                        "kindLabel": "Shard",
+                        "code": 104,
+                        "name": "Boots Shard R10",
+                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Armor1002.webp"
+                      },
+                      {
+                        "id": "r10-fancyAccessory-fragment",
+                        "rank": 10,
+                        "slot": "fancyAccessory",
+                        "slotLabel": "Fancy accessory",
+                        "kind": "fragment",
+                        "kindLabel": "Shard",
+                        "code": 105,
+                        "name": "Fancy accessory Shard R10",
+                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Accessory1002.webp"
+                      },
+                      {
+                        "id": "r10-physicalWeapon-fragment",
+                        "rank": 10,
+                        "slot": "physicalWeapon",
+                        "slotLabel": "Physical weapon",
+                        "kind": "fragment",
+                        "kindLabel": "Shard",
+                        "code": 106,
+                        "name": "Physical weapon Shard R10",
+                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Weapon1001.webp"
+                      },
+                      {
+                        "id": "r10-magicWeapon-fragment",
+                        "rank": 10,
+                        "slot": "magicWeapon",
+                        "slotLabel": "Magic weapon",
+                        "kind": "fragment",
+                        "kindLabel": "Shard",
+                        "code": 107,
+                        "name": "Magic weapon Shard R10",
+                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Weapon1002.webp"
                       }
                   ],
     "requirements":  [
@@ -766,6 +844,12 @@
                              "materialRank":  2,
                              "kind":  "blueprint",
                              "perSlot":  10
+                         },
+                         {
+                           "targetRank": 10,
+                           "materialRank": 10,
+                           "kind": "fragment",
+                           "perSlot": 64
                          }
                      ],
     "stages":  [
@@ -3056,6 +3140,166 @@
                                      "r9-hat-blueprint",
                                      "r9-physicalWeapon-blueprint"
                                  ]
+                   },
+                   {
+                     "id": "33-1",
+                     "label": "33-1",
+                     "drops": [
+                       "r9-physicalWeapon-blueprint",
+                       "r10-shinyAccessory-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-2",
+                     "label": "33-2",
+                     "drops": [
+                       "r9-shinyAccessory-blueprint",
+                       "r10-fancyAccessory-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-3",
+                     "label": "33-3",
+                     "drops": [
+                       "r9-fancyAccessory-blueprint",
+                       "r10-magicWeapon-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-4",
+                     "label": "33-4",
+                     "drops": [
+                       "r9-magicWeapon-blueprint",
+                       "r10-armor-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-5",
+                     "label": "33-5",
+                     "drops": [
+                       "r9-armor-blueprint",
+                       "r10-hat-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-6",
+                     "label": "33-6",
+                     "drops": [
+                       "r9-hat-blueprint",
+                       "r10-boots-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-7",
+                     "label": "33-7",
+                     "drops": [
+                       "r9-boots-blueprint",
+                       "r10-physicalWeapon-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-8",
+                     "label": "33-8",
+                     "drops": [
+                       "r9-shinyAccessory-blueprint",
+                       "r10-shinyAccessory-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-9",
+                     "label": "33-9",
+                     "drops": [
+                       "r9-physicalWeapon-blueprint",
+                       "r10-fancyAccessory-fragment"
+                     ]
+                   },
+                   {
+                     "id": "33-10",
+                     "label": "33-10",
+                     "drops": [
+                       "r9-fancyAccessory-blueprint",
+                       "r10-magicWeapon-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-1",
+                     "label": "34-1",
+                     "drops": [
+                       "r9-magicWeapon-blueprint",
+                       "r10-armor-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-2",
+                     "label": "34-2",
+                     "drops": [
+                       "r9-armor-blueprint",
+                       "r10-hat-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-3",
+                     "label": "34-3",
+                     "drops": [
+                       "r9-hat-blueprint",
+                       "r10-boots-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-4",
+                     "label": "34-4",
+                     "drops": [
+                       "r9-boots-blueprint",
+                       "r10-shinyAccessory-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-5",
+                     "label": "34-5",
+                     "drops": [
+                       "r9-shinyAccessory-blueprint",
+                       "r10-physicalWeapon-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-6",
+                     "label": "34-6",
+                     "drops": [
+                       "r9-physicalWeapon-blueprint",
+                       "r10-fancyAccessory-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-7",
+                     "label": "34-7",
+                     "drops": [
+                       "r9-fancyAccessory-blueprint",
+                       "r10-magicWeapon-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-8",
+                     "label": "34-8",
+                     "drops": [
+                       "r9-magicWeapon-blueprint",
+                       "r10-armor-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-9",
+                     "label": "34-9",
+                     "drops": [
+                       "r9-shinyAccessory-blueprint",
+                       "r10-hat-fragment"
+                     ]
+                   },
+                   {
+                     "id": "34-10",
+                     "label": "34-10",
+                     "drops": [
+                       "r9-hat-blueprint",
+                       "r10-boots-fragment"
+                     ]
                    }
                ]
 };
