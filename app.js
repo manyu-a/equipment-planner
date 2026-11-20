@@ -1358,7 +1358,7 @@ function networkGroups(shortages) {
     }
   }
 
-  const singles = requiredRanks.map((rank) => rankGroups.get(rank)).filter(Boolean).reverse();
+  const singles = requiredRanks.filter((rank) => rank !== 10).map((rank) => rankGroups.get(rank)).filter(Boolean).reverse();
   const pairs = [];
   for (let lowerRank = minimumRank - 1; lowerRank <= maximumRank; lowerRank += 1) {
     const lower = rankGroups.get(lowerRank);
