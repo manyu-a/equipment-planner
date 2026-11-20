@@ -13,7 +13,7 @@ const SLOT_LABELS = {
 
 const KIND_LABELS = {
   blueprint: "設計図",
-  fragment: "設計図",
+  fragment: "欠片",
 };
 
 const TOME_COSTS = {
@@ -102,7 +102,7 @@ let summaryHeightObserver = null;
 init();
 
 function init() {
-  [9, 8, 7, 6, 5, 4, 3, 2].forEach((rank) => {
+  [10, 9, 8, 7, 6, 5, 4, 3, 2].forEach((rank) => {
     const option = document.createElement("option");
     option.value = String(rank);
     option.textContent = `Rank ${rank}`;
@@ -592,11 +592,13 @@ function updateRecommendationDynamicValues(shortages) {
       row.querySelector("[data-focus-runs]").textContent = `${dynamic.focusRuns}周相当`;
       row.querySelector("[data-cycle-coverage]").textContent = dynamic.coverageText;
       row.querySelector("[data-stone-progress]").textContent =
-        `定石 ${dynamic.beforeStoneCost} → ${dynamic.afterStoneCost}（-${dynamic.stoneSaved}）`;
+        state.targetRank === 10 ? "定石換算未確認" : `定石 ${dynamic.beforeStoneCost} → ${dynamic.afterStoneCost}（-${dynamic.stoneSaved}）`;
     });
 
     const ratio = groupElement.querySelector("[data-plan-stones]");
-    if (ratio) ratio.textContent = `残り定石 ${calculateRequiredStones(remainingActual)}`;
+    if (ratio) ratio.textContent = state.targetRank === 10
+      ? "残り定石 未確認"
+      : `残り定石 ${calculateRequiredStones(remainingActual)}`;
   });
 }
 
@@ -771,6 +773,18 @@ function renderTomeSummary(needs) {
   const rows = tomeRowsFromShortages(shortages);
   const total = calculateRequiredStones(shortages);
 
+  if (state.targetRank === 10 && shortages.size > 0) {
+    const remaining = [...shortages.values()].reduce((sum, count) => sum + count, 0);
+    tomeSummary.innerHTML = `
+      <div class="tome-total">
+        <span>必要定石</span>
+        <strong>未確認</strong>
+      </div>
+      <div class="tome-breakdown">R10欠片の定石換算単価は未確認（不足 ${remaining}個）</div>
+    `;
+    return;
+  }
+
   if (total === 0) {
     tomeSummary.innerHTML = `
       <div class="tome-total">
@@ -796,6 +810,15 @@ function renderTomeSummary(needs) {
 
 function renderNetworkStoneSummary(shortages) {
   if (!networkStoneSummary) return;
+
+  if (state.targetRank === 10 && [...shortages.values()].some((count) => count > 0)) {
+    networkStoneSummary.innerHTML = `
+      <span>定石消費量</span>
+      <strong>未確認</strong>
+      <small>R10欠片の定石換算単価は未確認</small>
+    `;
+    return;
+  }
 
   const rows = tomeRowsFromShortages(shortages);
   const total = calculateRequiredStones(shortages);
@@ -2155,7 +2178,7 @@ function renderNetworkCandidateDetails(graph, selection) {
       .join(" + ");
     const meta = [
       networkTypeLabel(candidate.type),
-      `定石削減 ${candidate.stoneSaved}`,
+      state.targetRank === 10 ? "定石削減 未確認" : `定石削減 ${candidate.stoneSaved}`,
       `均等度 +${candidate.balanceBonus || 0}`,
       `代替希少 +${candidate.scarcityBonus || 0}`,
       `副産物 ${candidate.secondaryDrops.length}`,
@@ -2546,7 +2569,7 @@ function renderPlanBlock(group, plan, allShortages, groups) {
       <div class="group-title">【${group.label}】</div>
       <div class="recommendation-top">
         <div class="stage-label">推奨</div>
-        <div class="ratio" data-plan-stones>残り定石 ${plan.afterStoneCost}</div>
+        <div class="ratio" data-plan-stones>残り定石 ${state.targetRank === 10 ? "未確認" : plan.afterStoneCost}</div>
       </div>
     </div>
   `;
@@ -2584,7 +2607,7 @@ function renderFocusStep(candidate, shortages) {
       ${candidate.activeDrops.map((id) => `${cycleMaterialLabel(byMaterial.get(id))} +${candidate.focusRuns * candidate.dropCounts.get(id)}`).join(" / ")}
     </div>
     <div class="cycle-coverage" data-stone-progress>
-      定石 ${candidate.beforeStoneCost} → ${candidate.afterStoneCost}（-${candidate.stoneSaved}）
+      ${state.targetRank === 10 ? "定石換算未確認" : `定石 ${candidate.beforeStoneCost} → ${candidate.afterStoneCost}（-${candidate.stoneSaved}）`}
     </div>
     <div class="drop-list">
       ${candidate.stage.drops.map((id) => dropItem(id, candidate.activeDrops.includes(id) || shortages.has(id))).join("")}
@@ -2602,7 +2625,7 @@ function renderSideCandidate(candidate, shortages) {
   row.innerHTML = `
     <div class="recommendation-top">
       <div class="stage-label">${candidate.stage.label}</div>
-      <div class="ratio">定石 -${candidate.stoneSaved}</div>
+      <div class="ratio">${state.targetRank === 10 ? "定石換算未確認" : `定石 -${candidate.stoneSaved}`}</div>
     </div>
     <div class="cycle-coverage">
       ${activeLabel}
