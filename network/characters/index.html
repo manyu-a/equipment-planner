@@ -12,7 +12,7 @@
   <header class="app-header">
     <div>
       <h1>キャラ別装備管理</h1>
-      <p>装備アイコンを選択して、キャラごとの装着状況を記録します。</p>
+      <p>使徒別の装着状態と、完成済み装備の在庫を管理します。</p>
     </div>
     <div class="header-actions">
       <a href="../">探索ネットワークへ戻る</a>
@@ -20,32 +20,72 @@
     </div>
   </header>
   <main class="character-layout">
-    <div class="character-toolbar">
-      <label class="character-search">
-        <span>使徒検索</span>
-        <input id="characterSearch" type="search" autocomplete="off" placeholder="キャラ名を入力">
-      </label>
-      <label class="character-filter">
-        <input id="trackedOnly" type="checkbox">
-        登録済みのみ
-      </label>
-      <span id="characterCounter" class="character-counter"></span>
+    <div class="character-tabs" role="tablist" aria-label="装備管理画面">
+      <button id="characterTabButton" type="button" class="character-tab is-active" role="tab" aria-selected="true" aria-controls="characterTabPanel">使徒管理</button>
+      <button id="inventoryTabButton" type="button" class="character-tab" role="tab" aria-selected="false" aria-controls="inventoryTabPanel">個別装備の所持数</button>
     </div>
-    <p class="character-legend">装備画像をクリックして装着状態を変更します。薄い画像は装着済みです。Rank変更・装着状況は自動保存されます。</p>
-    <div class="character-roster-scroll">
-      <div class="character-roster-head" aria-hidden="true">
-        <span>使徒</span>
-        <span>現在Rank</span>
-        <span>装備（6枠）</span>
-        <span>装着</span>
-        <span>管理</span>
+
+    <section id="characterTabPanel" class="character-panel" role="tabpanel" aria-labelledby="characterTabButton">
+      <div class="character-toolbar">
+        <label class="character-search">
+          <span>使徒検索</span>
+          <input id="characterSearch" type="search" autocomplete="off" placeholder="キャラ名を入力">
+        </label>
+        <label class="character-filter">
+          <input id="trackedOnly" type="checkbox">
+          登録済みのみ
+        </label>
+        <div class="character-bulk-actions">
+          <button id="registerAllButton" type="button" class="ghost-button" disabled>全登録</button>
+          <button id="unregisterAllButton" type="button" class="ghost-button" disabled>全解除</button>
+        </div>
+        <span id="characterCounter" class="character-counter"></span>
       </div>
-      <div id="characterList" class="character-list"></div>
-    </div>
+      <p class="character-legend">装備画像をクリックして装着状態を変更します。薄い画像は装着済みです。Rank変更・装着状況は自動保存されます。</p>
+      <div class="character-roster-scroll">
+        <div class="character-roster-head" aria-hidden="true">
+          <span>使徒</span>
+          <span>現在Rank</span>
+          <span>装備（6枠）</span>
+          <span>装着</span>
+          <span>管理</span>
+        </div>
+        <div id="characterList" class="character-list"></div>
+      </div>
+    </section>
+
+    <section id="inventoryTabPanel" class="character-panel" role="tabpanel" aria-labelledby="inventoryTabButton" hidden>
+      <div class="inventory-toolbar">
+        <label class="inventory-filter-field">
+          <span>Rank</span>
+          <select id="gearRankFilter">
+            <option value="10" selected>Rank 10</option>
+            <option value="9">Rank 9</option>
+            <option value="8">Rank 8</option>
+            <option value="7">Rank 7</option>
+            <option value="6">Rank 6</option>
+            <option value="5">Rank 5</option>
+            <option value="4">Rank 4</option>
+            <option value="3">Rank 3</option>
+            <option value="2">Rank 2</option>
+            <option value="1">Rank 1</option>
+            <option value="all">全Rank</option>
+          </select>
+        </label>
+        <label class="inventory-filter-field inventory-search">
+          <span>装備名検索</span>
+          <input id="gearSearch" type="search" autocomplete="off" placeholder="個別装備を検索">
+        </label>
+        <span id="gearInventoryCounter" class="character-counter"></span>
+      </div>
+      <p class="character-legend">完成済みの装備350種類を個別に管理します。装備画像の下で直接数値を入力するか、−・＋で1ずつ変更できます。設計図の所持数とは別管理です。</p>
+      <div id="gearInventoryList" class="gear-inventory-list"></div>
+    </section>
+
     <p class="character-note">
       装備名称とRank情報：<a href="https://soshage.com/trickcal/unit" target="_blank" rel="noopener noreferrer">soshage</a>。
       装備画像・日本語名：<a href="https://wikiwiki.jp/thetrickal/装備ランク別等級表#rank10" target="_blank" rel="noopener noreferrer">トリッカルWiki</a>。
-      設計図や完成済み装備の在庫は、この画面では消費しません。
+      使徒の装着記録と個別装備在庫は独立して保存され、登録・装着操作によって自動的には消費されません。
     </p>
   </main>
   <script src="./page.js"></script>

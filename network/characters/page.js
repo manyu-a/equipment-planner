@@ -1,14 +1,27 @@
 const CHARACTER_STORAGE_KEY = "trickcal.characterEquipment.v1";
+const FINISHED_EQUIPMENT_STORAGE_KEY = "trickcal.finishedEquipment.v1";
 const EQUIPMENT_TYPES = ["hp", "pa", "ma", "pd", "md", "cd", "cr"];
 const SLOT_NAMES = ["衣装", "武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
+const EQUIPMENT_CATEGORY_NAMES = ["衣装", "物理武器", "魔法武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
 const characterList = document.querySelector("#characterList");
 const characterCounter = document.querySelector("#characterCounter");
 const characterSearch = document.querySelector("#characterSearch");
 const trackedOnly = document.querySelector("#trackedOnly");
+const registerAllButton = document.querySelector("#registerAllButton");
+const unregisterAllButton = document.querySelector("#unregisterAllButton");
+const characterTabButton = document.querySelector("#characterTabButton");
+const inventoryTabButton = document.querySelector("#inventoryTabButton");
+const characterTabPanel = document.querySelector("#characterTabPanel");
+const inventoryTabPanel = document.querySelector("#inventoryTabPanel");
+const gearRankFilter = document.querySelector("#gearRankFilter");
+const gearSearch = document.querySelector("#gearSearch");
+const gearInventoryCounter = document.querySelector("#gearInventoryCounter");
+const gearInventoryList = document.querySelector("#gearInventoryList");
 
 let characters = [];
 let gearMap = {};
 let savedCharacters = loadSavedCharacters();
+let finishedEquipment = loadFinishedEquipment();
 
 function loadSavedCharacters() {
   try {
@@ -21,6 +34,45 @@ function loadSavedCharacters() {
 
 function saveCharacters() {
   localStorage.setItem(CHARACTER_STORAGE_KEY, JSON.stringify({ version: 1, characters: savedCharacters }));
+}
+
+function loadFinishedEquipment() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(FINISHED_EQUIPMENT_STORAGE_KEY) || "{}");
+    return stored.counts && typeof stored.counts === "object" && !Array.isArray(stored.counts) ? stored.counts : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveFinishedEquipment() {
+  localStorage.setItem(FINISHED_EQUIPMENT_STORAGE_KEY, JSON.stringify({ version: 1, counts: finishedEquipment }));
+}
+
+function finishedCount(key) {
+  return Math.max(0, Math.trunc(Number(finishedEquipment[key]) || 0));
+}
+
+function setFinishedCount(key, value) {
+  const amount = Math.max(0, Math.trunc(Number(value) || 0));
+  if (amount === 0) delete finishedEquipment[key];
+  else finishedEquipment[key] = amount;
+  saveFinishedEquipment();
+  updateGearInventoryCounter();
+  return amount;
+}
+
+function makeGearIcon(iconInfo, className) {
+  const icon = document.createElement("span");
+  icon.className = className;
+  if (!iconInfo) {
+    icon.textContent = "?";
+    return icon;
+  }
+  const category = EQUIPMENT_TYPES.indexOf(iconInfo.type);
+  icon.style.backgroundImage = 'url("../assets/equipment/rank' + iconInfo.rank + '.webp")';
+  icon.style.backgroundPosition = (iconInfo.tier - 1) * 25 + "% " + (category / 6) * 100 + "%";
+  return icon;
 }
 
 function progressFor(characterId, rank) {
@@ -36,7 +88,10 @@ function renderList() {
       || character.id.includes(query);
   });
 
-  characterCounter.textContent = "登録 " + characters.filter((character) => savedCharacters[character.id]).length + " / " + characters.length;
+  const registeredCount = characters.filter((character) => savedCharacters[character.id]).length;
+  characterCounter.textContent = "登録 " + registeredCount + " / " + characters.length;
+  registerAllButton.disabled = characters.length === 0 || registeredCount === characters.length;
+  unregisterAllButton.disabled = registeredCount === 0;
   characterList.replaceChildren();
 
   if (visible.length === 0) {
@@ -113,16 +168,7 @@ function renderList() {
       button.title = SLOT_NAMES[index] + "： " + pieceName + "（" + (isEquipped ? "装着済み" : "未装着") + "）";
       button.setAttribute("aria-label", name + " " + button.title);
 
-      const icon = document.createElement("span");
-      icon.className = "character-gear-icon";
-      if (iconInfo) {
-        const category = EQUIPMENT_TYPES.indexOf(iconInfo.type);
-        icon.style.backgroundImage = 'url("../assets/equipment/rank' + iconInfo.rank + '.webp")';
-        icon.style.backgroundPosition = (iconInfo.tier - 1) * 25 + "% " + (category / 6) * 100 + "%";
-      } else {
-        icon.textContent = "?";
-      }
-      button.append(icon);
+      button.append(makeGearIcon(iconInfo, "character-gear-icon"));
       button.addEventListener("click", () => {
         const entry = savedCharacters[character.id];
         if (!entry) return;
@@ -159,6 +205,150 @@ function renderList() {
     row.append(identity, rankControls, gears, progress, registration);
     characterList.append(row);
   });
+}
+
+
+registerAllButton.addEventListener("click", () => {
+  characters.forEach((character) => {
+    if (!savedCharacters[character.id]) {
+      savedCharacters[character.id] = { rank: 1, equipped: {} };
+    }
+  });
+  saveCharacters();
+  renderList();
+});
+
+unregisterAllButton.addEventListener("click", () => {
+  const registeredCount = characters.filter((character) => savedCharacters[character.id]).length;
+  if (!registeredCount) return;
+  if (!confirm("登録済みの使徒" + registeredCount + "名を全解除し、Rank・装着記録も削除しますか？")) return;
+  savedCharacters = {};
+  saveCharacters();
+  renderList();
+});
+
+function activateTab(tab) {
+  const showCharacters = tab === "characters";
+  characterTabButton.classList.toggle("is-active", showCharacters);
+  inventoryTabButton.classList.toggle("is-active", !showCharacters);
+  characterTabButton.setAttribute("aria-selected", String(showCharacters));
+  inventoryTabButton.setAttribute("aria-selected", String(!showCharacters));
+  characterTabPanel.hidden = !showCharacters;
+  inventoryTabPanel.hidden = showCharacters;
+  if (!showCharacters) renderGearInventory();
+}
+
+characterTabButton.addEventListener("click", () => activateTab("characters"));
+inventoryTabButton.addEventListener("click", () => activateTab("inventory"));
+gearRankFilter.addEventListener("change", renderGearInventory);
+gearSearch.addEventListener("input", renderGearInventory);
+
+function updateGearInventoryCounter() {
+  const allKeys = Object.keys(gearMap);
+  const ownedKinds = allKeys.filter((key) => finishedCount(key) > 0).length;
+  const total = allKeys.reduce((sum, key) => sum + finishedCount(key), 0);
+  gearInventoryCounter.textContent = "所持 " + ownedKinds + "種類・計" + total + "個 / 全" + allKeys.length + "種類";
+}
+
+function makeStockCard(key, gear) {
+  const card = document.createElement("article");
+  card.className = "gear-stock-card";
+  const name = gear.nameJa || key;
+  card.title = "R" + gear.rank + " " + name;
+
+  const icon = makeGearIcon(gear, "gear-stock-icon");
+  icon.setAttribute("aria-hidden", "true");
+  const nameLabel = document.createElement("span");
+  nameLabel.className = "gear-stock-name";
+  nameLabel.textContent = name;
+
+  const stepper = document.createElement("div");
+  stepper.className = "gear-stock-stepper";
+
+  const input = document.createElement("input");
+  input.type = "number";
+  input.min = "0";
+  input.step = "1";
+  input.inputMode = "numeric";
+  input.value = String(finishedCount(key));
+  input.setAttribute("aria-label", "R" + gear.rank + " " + name + "の所持数");
+
+  const decrease = document.createElement("button");
+  decrease.type = "button";
+  decrease.className = "ghost-button";
+  decrease.textContent = "−";
+  decrease.setAttribute("aria-label", name + "を1減らす");
+
+  const increase = document.createElement("button");
+  increase.type = "button";
+  increase.className = "ghost-button";
+  increase.textContent = "＋";
+  increase.setAttribute("aria-label", name + "を1増やす");
+
+  decrease.addEventListener("click", () => {
+    input.value = String(setFinishedCount(key, finishedCount(key) - 1));
+  });
+  increase.addEventListener("click", () => {
+    input.value = String(setFinishedCount(key, finishedCount(key) + 1));
+  });
+  input.addEventListener("input", () => {
+    if (input.value !== "") setFinishedCount(key, input.value);
+  });
+  input.addEventListener("change", () => {
+    input.value = String(setFinishedCount(key, input.value));
+  });
+
+  stepper.append(decrease, input, increase);
+  card.append(icon, nameLabel, stepper);
+  return card;
+}
+
+function renderGearInventory() {
+  const selectedRank = gearRankFilter.value;
+  const query = gearSearch.value.trim().toLowerCase();
+  gearInventoryList.replaceChildren();
+  updateGearInventoryCounter();
+
+  const ranks = selectedRank === "all"
+    ? [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+    : [Number(selectedRank)];
+  let visibleCount = 0;
+
+  ranks.forEach((rank) => {
+    const rankSection = document.createElement("section");
+    rankSection.className = "gear-rank-group";
+    const heading = document.createElement("h2");
+    heading.textContent = "Rank " + rank;
+    rankSection.append(heading);
+
+    EQUIPMENT_TYPES.forEach((type, index) => {
+      const gears = Object.entries(gearMap)
+        .filter(([key, gear]) => gear.rank === rank && gear.type === type
+          && (gear.nameJa || "").toLowerCase().includes(query))
+        .sort((a, b) => a[1].tier - b[1].tier);
+
+      if (gears.length === 0) return;
+      visibleCount += gears.length;
+      const row = document.createElement("div");
+      row.className = "gear-category";
+      const categoryName = document.createElement("h3");
+      categoryName.textContent = EQUIPMENT_CATEGORY_NAMES[index];
+      const grid = document.createElement("div");
+      grid.className = "gear-stock-grid";
+      gears.forEach(([key, gear]) => grid.append(makeStockCard(key, gear)));
+      row.append(categoryName, grid);
+      rankSection.append(row);
+    });
+
+    if (rankSection.children.length > 1) gearInventoryList.append(rankSection);
+  });
+
+  if (visibleCount === 0) {
+    const empty = document.createElement("p");
+    empty.className = "character-empty";
+    empty.textContent = "該当する装備はありません。";
+    gearInventoryList.append(empty);
+  }
 }
 
 characterSearch.addEventListener("input", renderList);
