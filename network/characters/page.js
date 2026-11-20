@@ -120,7 +120,13 @@ function renderList() {
     avatar.loading = "lazy";
     const label = document.createElement("strong");
     label.textContent = name;
-    identity.append(avatar, label);
+    const state = document.createElement("span");
+    state.className = "character-state-label";
+    state.textContent = tracked ? "登録済み" : "未登録";
+    const titleBlock = document.createElement("span");
+    titleBlock.className = "character-name-block";
+    titleBlock.append(label, state);
+    identity.append(avatar, titleBlock);
 
     const rankControls = document.createElement("div");
     rankControls.className = "character-rank";
