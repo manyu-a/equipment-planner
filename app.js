@@ -158,6 +158,8 @@ function init() {
   });
   networkGroupSelect.addEventListener("change", () => {
     networkGroupKey = networkGroupSelect.value;
+    state.networkGroupKey = networkGroupKey;
+    persistState();
     renderExplorationNetwork(calculateNeeds().shortages);
   });
   networkZoomOutButton.addEventListener("click", () => activeNetworkController?.zoom(1.25));
@@ -327,6 +329,7 @@ function createDefaultState() {
     inputMode: "direct",
     autoCalculate: true,
     networkPlacement: "summary",
+    networkGroupKey: "",
     completed: {},
     materials: {},
     recommendationPlans: {},
@@ -1252,9 +1255,9 @@ function renderExplorationNetwork(shortages) {
     return;
   }
 
-  if (!groups.some((group) => group.key === networkGroupKey)) {
-    networkGroupKey = groups[0].key;
-  }
+  networkGroupKey = groups.some((group) => group.key === state.networkGroupKey)
+    ? state.networkGroupKey
+    : groups[0].key;
 
   groups.forEach((group) => {
     const option = document.createElement("option");
@@ -1304,7 +1307,7 @@ function networkGroups(shortages) {
     }
   }
 
-  const singles = requiredRanks.map((rank) => rankGroups.get(rank)).filter(Boolean);
+  const singles = requiredRanks.map((rank) => rankGroups.get(rank)).filter(Boolean).reverse();
   const pairs = [];
   for (let lowerRank = minimumRank - 1; lowerRank <= maximumRank; lowerRank += 1) {
     const lower = rankGroups.get(lowerRank);
@@ -1312,10 +1315,10 @@ function networkGroups(shortages) {
     if (!lower || !upper) continue;
     pairs.push(combineNetworkGroups(
       [lower, upper],
-      `${lower.label} + ${upper.label}`
+      `${upper.label} + ${lower.label}`
     ));
   }
-  return [...singles, ...pairs];
+  return [...singles, ...pairs.reverse()];
 }
 
 function buildComparisonNetworkGroup(rank, comparisonBatch) {
