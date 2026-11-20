@@ -3,6 +3,7 @@ const FINISHED_EQUIPMENT_STORAGE_KEY = "trickcal.finishedEquipment.v1";
 const EQUIPMENT_TYPES = ["hp", "pa", "ma", "pd", "md", "cd", "cr"];
 const SLOT_NAMES = ["衣装", "武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
 const EQUIPMENT_CATEGORY_NAMES = ["衣装", "物理武器", "魔法武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
+const INVENTORY_CATEGORY_ORDER = ["pa", "ma", "hp", "pd", "md", "cd", "cr"];
 const characterList = document.querySelector("#characterList");
 const characterCounter = document.querySelector("#characterCounter");
 const characterSearch = document.querySelector("#characterSearch");
@@ -321,7 +322,7 @@ function renderGearInventory() {
     heading.textContent = "Rank " + rank;
     rankSection.append(heading);
 
-    EQUIPMENT_TYPES.forEach((type, index) => {
+    INVENTORY_CATEGORY_ORDER.forEach((type) => {
       const gears = Object.entries(gearMap)
         .filter(([key, gear]) => gear.rank === rank && gear.type === type
           && (gear.nameJa || "").toLowerCase().includes(query))
@@ -332,7 +333,7 @@ function renderGearInventory() {
       const row = document.createElement("div");
       row.className = "gear-category";
       const categoryName = document.createElement("h3");
-      categoryName.textContent = EQUIPMENT_CATEGORY_NAMES[index];
+      categoryName.textContent = EQUIPMENT_CATEGORY_NAMES[EQUIPMENT_TYPES.indexOf(type)];
       const grid = document.createElement("div");
       grid.className = "gear-stock-grid";
       gears.forEach(([key, gear]) => grid.append(makeStockCard(key, gear)));
