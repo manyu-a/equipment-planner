@@ -199,7 +199,21 @@ button:active,
   font-weight: 700;
 }
 
-.network-material-editor-control .compact-number {
+#networkMaterialEditorControl .network-material-amount-stepper {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 6px;
+}
+
+#networkMaterialEditorControl .network-material-amount-stepper button {
+  min-height: 36px;
+  padding: 4px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+#networkMaterialEditorControl .compact-number {
   width: 100%;
   max-width: none;
 }

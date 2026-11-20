@@ -1999,12 +1999,18 @@ function openNetworkMaterialEditor(materialId, node) {
   networkMaterialEditorImage.alt = materialName(material);
   networkMaterialEditorTitle.textContent = materialName(material);
   networkMaterialEditorCurrent.textContent = `現在 ${current}`;
-  networkMaterialEditorControl.innerHTML = renderNumberControl({
-    value: current,
-    max: maxRequired,
-    ariaLabel: `${materialName(material)} 所持数`,
-    attributes: `data-network-material-input="${materialId}"`,
-  });
+  networkMaterialEditorControl.innerHTML = `
+    <span class="network-material-amount-stepper">
+      <button type="button" class="ghost-button" data-network-step="-1" aria-label="所持数を1減らす">−</button>
+      ${renderNumberControl({
+        value: current,
+        max: maxRequired,
+        ariaLabel: `${materialName(material)} 所持数`,
+        attributes: `data-network-material-input="${materialId}"`,
+      })}
+      <button type="button" class="ghost-button" data-network-step="1" aria-label="所持数を1増やす">＋</button>
+    </span>
+  `;
   networkMaterialEditor.hidden = false;
 
   const contentRect = networkMaterialEditor.parentElement.getBoundingClientRect();
@@ -2025,6 +2031,9 @@ function openNetworkMaterialEditor(materialId, node) {
   const control = networkMaterialEditorControl.querySelector("input, select");
   const eventName = control?.tagName === "SELECT" ? "change" : "input";
   control?.addEventListener(eventName, () => applyNetworkMaterialEditorValue(control.value));
+  networkMaterialEditorControl.querySelectorAll("[data-network-step]").forEach((button) => {
+    button.addEventListener("click", () => adjustNetworkMaterialEditorValue(Number(button.dataset.networkStep)));
+  });
   requestAnimationFrame(() => {
     control?.focus();
     if (control?.tagName === "INPUT") control.select();
@@ -2077,6 +2086,18 @@ function applyNetworkMaterialEditorValue(value) {
   } else {
     updateRecommendationDynamicValues(needs.shortages);
   }
+}
+
+function adjustNetworkMaterialEditorValue(step) {
+  if (!editingNetworkMaterialId) return;
+  const control = networkMaterialEditorControl.querySelector("input, select");
+  if (!control) return;
+  const value = Math.max(0, materialCount(editingNetworkMaterialId) + step);
+  if (control.tagName === "SELECT" && ![...control.options].some((option) => Number(option.value) === value)) {
+    control.add(new Option(String(value), String(value)));
+  }
+  control.value = String(value);
+  applyNetworkMaterialEditorValue(value);
 }
 
 function setNetworkMaterialEditorMax() {
