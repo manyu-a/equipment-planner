@@ -98,6 +98,7 @@ let suppressNetworkNodeClickUntil = 0;
 let editingNetworkMaterialId = "";
 let editingNetworkMaterialOriginalValue = 0;
 let networkMaterialEditorDirty = false;
+let networkRedrawPending = false;
 let summaryHeightObserver = null;
 
 init();
@@ -1243,6 +1244,10 @@ function buildStageEdges(group, allShortages) {
 }
 
 function renderExplorationNetwork(shortages) {
+  if (!networkMaterialEditor.hidden) {
+    networkRedrawPending = true;
+    return;
+  }
   closeNetworkMaterialEditor();
   renderNetworkStoneSummary(shortages);
   const groups = networkGroups(shortages);
@@ -1987,6 +1992,12 @@ function setupNetworkInteraction(context) {
 }
 
 function openNetworkMaterialEditor(materialId, node) {
+  if (editingNetworkMaterialId) {
+    if (editingNetworkMaterialId === materialId) return;
+    finishNetworkMaterialEditor();
+    node = networkGraph.querySelector(`.network-node[data-material-id="${materialId}"]`);
+    if (!node) return;
+  }
   const material = byMaterial.get(materialId);
   if (!material) return;
 
@@ -2050,8 +2061,11 @@ function closeNetworkMaterialEditor() {
 function finishNetworkMaterialEditor() {
   if (!editingNetworkMaterialId) return;
   const shouldRefresh = networkMaterialEditorDirty;
+  const shouldRedraw = networkRedrawPending;
   closeNetworkMaterialEditor();
+  networkRedrawPending = false;
   if (shouldRefresh) persistAndRender();
+  else if (shouldRedraw) renderExplorationNetwork(calculateNeeds().shortages);
 }
 
 function cancelNetworkMaterialEditor() {
@@ -2059,10 +2073,13 @@ function cancelNetworkMaterialEditor() {
   const materialId = editingNetworkMaterialId;
   const originalValue = editingNetworkMaterialOriginalValue;
   const shouldRefresh = networkMaterialEditorDirty;
+  const shouldRedraw = networkRedrawPending;
   state.materials[materialId] = originalValue;
   persistState();
   closeNetworkMaterialEditor();
+  networkRedrawPending = false;
   if (shouldRefresh) persistAndRender();
+  else if (shouldRedraw) renderExplorationNetwork(calculateNeeds().shortages);
 }
 
 function applyNetworkMaterialEditorValue(value) {
@@ -2073,19 +2090,6 @@ function applyNetworkMaterialEditorValue(value) {
   networkMaterialEditorDirty = nextValue !== editingNetworkMaterialOriginalValue;
   networkMaterialEditorCurrent.textContent = `現在 ${nextValue}`;
   updateNetworkMaterialNodeAmount(materialId);
-
-  const needs = calculateNeeds();
-  renderEquipmentGrid(needs.needs);
-  renderMaterialInventory();
-  renderTomeSummary(needs.needs);
-  renderShortages(needs.needs);
-  updateCalculationControls();
-  restoreRecommendationPlan(needs.shortages);
-  if (state.autoCalculate) {
-    scheduleRecommendations(needs.shortages);
-  } else {
-    updateRecommendationDynamicValues(needs.shortages);
-  }
 }
 
 function adjustNetworkMaterialEditorValue(step) {
