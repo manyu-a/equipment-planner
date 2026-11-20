@@ -54,6 +54,17 @@
     </form>
   </dialog>
 
+  <dialog class="settings-dialog network-materials-dialog" id="networkMaterialsDialog">
+    <div class="settings-panel">
+      <div class="settings-head">
+        <h2>ネットワーク上に表示する装備</h2>
+        <button id="networkMaterialsCloseButton" type="button" class="ghost-button">閉じる</button>
+      </div>
+      <p class="network-materials-help">チェックした装備をネットワークに表示します。</p>
+      <div id="networkMaterialsList" class="network-material-options"></div>
+    </div>
+  </dialog>
+
   <main class="layout">
     <section class="band controls-band">
       <div class="field">
@@ -116,6 +127,7 @@
                 <span>素材グループ</span>
                 <select id="networkGroupSelect"></select>
               </label>
+              <button id="networkMaterialsButton" type="button" class="ghost-button">ネットワーク上に表示する装備を選択する</button>
             </div>
             <div class="network-workspace">
               <div id="networkGraph" class="network-graph"></div>

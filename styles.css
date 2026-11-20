@@ -115,6 +115,48 @@ button:active,
   background: rgba(10, 25, 24, 0.42);
 }
 
+.network-materials-dialog {
+  width: min(580px, calc(100% - 28px));
+}
+
+.network-materials-help {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.network-material-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+  gap: 8px;
+  max-height: min(60dvh, 540px);
+  overflow-y: auto;
+}
+
+.network-material-option {
+  display: grid;
+  grid-template-columns: 22px 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.network-material-option input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--teal);
+}
+
+.network-material-option img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
 .network-panel-content {
   position: relative;
   display: grid;
@@ -761,10 +803,16 @@ input.compact-number {
 
 .network-toolbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: end;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 10px;
+}
+
+#networkMaterialsButton {
+  min-height: 38px;
+  font-size: 13px;
 }
 
 .network-workspace {
@@ -1147,7 +1195,7 @@ input.compact-number {
 
 .network-detail {
   display: grid;
-  grid-template-columns: 70px minmax(0, 1fr) auto;
+  grid-template-columns: 70px minmax(0, 1fr);
   gap: 8px;
   align-items: center;
   padding: 8px;
@@ -1193,12 +1241,6 @@ input.compact-number {
   font-size: 11px;
   font-weight: 700;
   overflow-wrap: anywhere;
-}
-
-.network-detail-weight {
-  color: var(--blue);
-  font-weight: 900;
-  white-space: nowrap;
 }
 
 .shortage-row,
@@ -1482,10 +1524,6 @@ input.compact-number {
 
   .network-detail {
     grid-template-columns: 52px minmax(0, 1fr);
-  }
-
-  .network-detail-weight {
-    grid-column: 2;
   }
 
   .inventory-rank {
