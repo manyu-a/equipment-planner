@@ -13,7 +13,7 @@ const SLOT_LABELS = {
 
 const KIND_LABELS = {
   blueprint: "設計図",
-  fragment: "欠片",
+  fragment: "設計図",
 };
 
 const TOME_COSTS = {
