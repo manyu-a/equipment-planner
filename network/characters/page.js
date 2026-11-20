@@ -77,7 +77,13 @@ function renderList() {
     const row = makeElement("button", "character-item");
     row.type = "button";
     row.classList.toggle("is-active", character.id === selectedId);
-    row.append(makeElement("span", "character-avatar", (character.nameJa || character.name).slice(0, 1)));
+    const avatar = makeElement("span", "character-avatar");
+    const avatarImage = document.createElement("img");
+    avatarImage.src = "../assets/characters/" + character.iconKey + ".webp";
+    avatarImage.alt = "";
+    avatarImage.loading = "lazy";
+    avatar.append(avatarImage);
+    row.append(avatar);
     row.append(makeElement("span", "character-item-name", character.nameJa || character.name));
     row.append(makeElement("span", "character-item-rank", tracked ? "R" + tracked.rank + "・" + currentProgress(character, tracked.rank) + "/6" : "未登録"));
     row.addEventListener("click", () => {
