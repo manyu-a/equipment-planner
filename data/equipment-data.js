@@ -697,7 +697,7 @@
                         "kindLabel": "Shard",
                         "code": 101,
                         "name": "Armor Shard R10",
-                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Armor1003.webp"
+                        "image": "assets/equipment/r10_armor.png"
                       },
                       {
                         "id": "r10-hat-fragment",
@@ -708,7 +708,7 @@
                         "kindLabel": "Shard",
                         "code": 102,
                         "name": "Hat Shard R10",
-                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Armor1001.webp"
+                        "image": "assets/equipment/r10_hat.png"
                       },
                       {
                         "id": "r10-shinyAccessory-fragment",
@@ -719,7 +719,7 @@
                         "kindLabel": "Shard",
                         "code": 103,
                         "name": "Shiny accessory Shard R10",
-                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Accessory1001.webp"
+                        "image": "assets/equipment/r10_shinyAccessory.png"
                       },
                       {
                         "id": "r10-boots-fragment",
@@ -730,7 +730,7 @@
                         "kindLabel": "Shard",
                         "code": 104,
                         "name": "Boots Shard R10",
-                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Armor1002.webp"
+                        "image": "assets/equipment/r10_boots.png"
                       },
                       {
                         "id": "r10-fancyAccessory-fragment",
@@ -741,7 +741,7 @@
                         "kindLabel": "Shard",
                         "code": 105,
                         "name": "Fancy accessory Shard R10",
-                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Accessory1002.webp"
+                        "image": "assets/equipment/r10_fancyAccessory.png"
                       },
                       {
                         "id": "r10-physicalWeapon-fragment",
@@ -752,7 +752,7 @@
                         "kindLabel": "Shard",
                         "code": 106,
                         "name": "Physical weapon Shard R10",
-                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Weapon1001.webp"
+                        "image": "assets/equipment/r10_physicalWeapon.png"
                       },
                       {
                         "id": "r10-magicWeapon-fragment",
@@ -763,7 +763,7 @@
                         "kindLabel": "Shard",
                         "code": 107,
                         "name": "Magic weapon Shard R10",
-                        "image": "https://img.kusoge.xyz/trickcal/equipicons/Equip_Piece_Icon_Weapon1002.webp"
+                        "image": "assets/equipment/r10_magicWeapon.png"
                       }
                   ],
     "requirements":  [
