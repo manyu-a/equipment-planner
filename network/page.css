@@ -1,0 +1,40 @@
+.network-trial-page .layout {
+  width: min(1480px, 100%);
+}
+
+.network-trial-page .app-header .header-actions a {
+  color: inherit;
+}
+
+.network-trial-page .planner-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.network-trial-page .summary-panel {
+  order: 0;
+}
+
+.network-trial-page .equipment-panel {
+  order: 1;
+}
+
+.network-trial-page .summary-panel.has-standalone-network,
+.network-trial-page .summary-head,
+.network-trial-page .tome-summary,
+.network-trial-page .summary-tabs,
+.network-trial-page #recommendationsPanel,
+.network-trial-page #shortagesPanel,
+.network-trial-page .equipment-tabs,
+.network-trial-page #equipmentSlotsPanel,
+.network-trial-page #consumeEquipmentButton {
+  display: none !important;
+}
+
+.network-trial-page #networkPanel,
+.network-trial-page #materialInventoryPanel {
+  display: block;
+}
+
+.network-trial-page .network-standalone-dock:not(:empty) {
+  margin: 16px 0 0;
+}
