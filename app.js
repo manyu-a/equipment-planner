@@ -71,12 +71,8 @@ const recommendationsPanel = document.querySelector("#recommendationsPanel");
 const shortagesPanel = document.querySelector("#shortagesPanel");
 const networkPanel = document.querySelector("#networkPanel");
 const networkGroupSelect = document.querySelector("#networkGroupSelect");
-const networkMaterialsButton = document.querySelector("#networkMaterialsButton");
-const networkMaterialsDialog = document.querySelector("#networkMaterialsDialog");
 const networkMaterialsList = document.querySelector("#networkMaterialsList");
-const networkMaterialsCloseButton = document.querySelector("#networkMaterialsCloseButton");
 const networkGraph = document.querySelector("#networkGraph");
-const networkDetails = document.querySelector("#networkDetails");
 const networkStoneSummary = document.querySelector("#networkStoneSummary");
 const networkZoomOutButton = document.querySelector("#networkZoomOutButton");
 const networkZoomInButton = document.querySelector("#networkZoomInButton");
@@ -166,8 +162,6 @@ function init() {
     persistState();
     renderExplorationNetwork(calculateNeeds().shortages);
   });
-  networkMaterialsButton.addEventListener("click", openNetworkMaterialsDialog);
-  networkMaterialsCloseButton.addEventListener("click", () => networkMaterialsDialog.close());
   networkZoomOutButton.addEventListener("click", () => activeNetworkController?.zoom(1.25));
   networkZoomInButton.addEventListener("click", () => activeNetworkController?.zoom(0.8));
   networkResetViewButton.addEventListener("click", () => activeNetworkController?.resetView());
@@ -1252,10 +1246,9 @@ function renderExplorationNetwork(shortages) {
   closeNetworkMaterialEditor();
   renderNetworkStoneSummary(shortages);
   const groups = networkGroups(shortages);
-  networkMaterialsButton.disabled = groups.length === 0;
   networkGroupSelect.replaceChildren();
   networkGraph.replaceChildren();
-  networkDetails.replaceChildren();
+  networkMaterialsList.replaceChildren();
 
   if (groups.length === 0) {
     networkGroupKey = "";
@@ -1276,6 +1269,7 @@ function renderExplorationNetwork(shortages) {
   networkGroupSelect.value = networkGroupKey;
 
   const group = groups.find((item) => item.key === networkGroupKey);
+  renderNetworkMaterialsList(group);
   const fullGraph = visibleNetworkGraph(buildStageEdges(group, shortages));
   const hiddenIds = new Set(state.networkHiddenMaterials?.[group.key] || []);
   const graph = visibleNetworkGraph({
@@ -1301,13 +1295,9 @@ function renderExplorationNetwork(shortages) {
   }
   const selection = { group, adoptedStageIds, manualStageIds, selectionKey };
   renderNetworkSvg(group, graph, selection);
-  renderNetworkCandidateDetails(graph, selection);
 }
 
-function openNetworkMaterialsDialog() {
-  const group = currentNetworkGroup();
-  if (!group) return;
-
+function renderNetworkMaterialsList(group) {
   const hiddenIds = new Set(state.networkHiddenMaterials?.[group.key] || []);
   const slotOrder = new Map(DATA.slots.map((slot, index) => [slot, index]));
   const materials = [...group.shortages.keys()]
@@ -1340,7 +1330,6 @@ function openNetworkMaterialsDialog() {
     row.append(checkbox, image, name);
     networkMaterialsList.append(row);
   });
-  networkMaterialsDialog.showModal();
 }
 
 function networkGroups(shortages) {
@@ -2185,61 +2174,6 @@ function parseNetworkViewBox(svg) {
 
 function setNetworkViewBox(svg, viewBox) {
   svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
-}
-
-function renderNetworkCandidateDetails(graph, selection) {
-  const { group, adoptedStageIds, manualStageIds } = selection;
-  const mainEdges = [...graph.edges, ...graph.doubleEdges];
-  const candidates = [...mainEdges, ...graph.singles].sort((a, b) => {
-    return (
-      Number(manualStageIds.has(b.stage.id)) - Number(manualStageIds.has(a.stage.id)) ||
-      Number(adoptedStageIds.has(b.stage.id)) - Number(adoptedStageIds.has(a.stage.id)) ||
-      compareStageCandidates(a, b)
-    );
-  });
-
-  if (candidates.length === 0) {
-    networkDetails.innerHTML = `<div class="complete-note">このグループを含むステージ候補はありません。</div>`;
-    return;
-  }
-
-  candidates.forEach((candidate) => {
-    const isSelected = adoptedStageIds.has(candidate.stage.id);
-    const isManual = manualStageIds.has(candidate.stage.id);
-    const isSingle = candidate.type === "single";
-    const row = document.createElement("div");
-    row.className = [
-      "network-detail",
-      isSelected ? "is-selected" : "",
-      isManual ? "is-manual" : "",
-      isSingle ? "is-single" : "",
-    ].filter(Boolean).join(" ");
-
-    const dropLabel = candidate.activeDrops
-      .map((id) => byMaterial.get(id))
-      .filter(Boolean)
-      .map(materialSlotName)
-      .join(" + ");
-    const meta = [
-      networkTypeLabel(candidate.type),
-      `定石削減 ${candidate.stoneSaved}`,
-      `均等度 +${candidate.balanceBonus || 0}`,
-      `代替希少 +${candidate.scarcityBonus || 0}`,
-      `副産物 ${candidate.secondaryDrops.length}`,
-      `不要 ${candidate.wasteDrops.length}`,
-      `逆武器 ${candidate.offBuildDrops.length}`,
-    ].join(" / ");
-
-    row.innerHTML = `
-      <div class="network-detail-stage">${candidate.stage.id}</div>
-      <div class="network-detail-main">
-        <div class="network-detail-title">${dropLabel || "片側不足候補"}</div>
-        <div class="network-detail-meta">${meta}</div>
-      </div>
-     `;
-    row.addEventListener("click", () => toggleManualNetworkStage(group, candidate.stage.id));
-    networkDetails.append(row);
-  });
 }
 
 function networkEdgeDescription(edge) {
