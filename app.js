@@ -1128,8 +1128,6 @@ function planGroupByGraphMatching(group, allShortages) {
   const graph = buildStageEdges(group, allShortages);
   const mainEdges = [...graph.edges, ...graph.doubleEdges];
 
-  // R10 stages drop one R10 shard and one R9 design. Treat each useful
-  // single-shard stage as a main route, rather than only a side candidate.
   if (group.rank === 10 && group.kind === "fragment") {
     const steps = graph.singles.sort(compareStageCandidates);
     return steps.length ? buildPlanFromSelectedEdges(group, allShortages, steps, []) : null;
