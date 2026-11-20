@@ -59,7 +59,7 @@ function renderList() {
   const onlyRegistered = trackedOnly.checked;
   const visible = characters.filter((character) => {
     if (onlyRegistered && !savedCharacters[character.id]) return false;
-    return character.name.toLowerCase().includes(query) || character.id.includes(query);
+    return (character.nameJa || character.name).toLowerCase().includes(query) || character.name.toLowerCase().includes(query) || character.id.includes(query);
   });
 
   visible.sort((a, b) => Number(Boolean(savedCharacters[b.id])) - Number(Boolean(savedCharacters[a.id])));
@@ -77,8 +77,8 @@ function renderList() {
     const row = makeElement("button", "character-item");
     row.type = "button";
     row.classList.toggle("is-active", character.id === selectedId);
-    row.append(makeElement("span", "character-avatar", character.name.slice(0, 1).toUpperCase()));
-    row.append(makeElement("span", "character-item-name", character.name));
+    row.append(makeElement("span", "character-avatar", (character.nameJa || character.name).slice(0, 1)));
+    row.append(makeElement("span", "character-item-name", character.nameJa || character.name));
     row.append(makeElement("span", "character-item-rank", tracked ? "R" + tracked.rank + "・" + currentProgress(character, tracked.rank) + "/6" : "未登録"));
     row.addEventListener("click", () => {
       selectedId = character.id;
@@ -98,7 +98,7 @@ function renderEditor() {
   const pieces = character.ranks[rank - 1] || [];
   const equipped = tracked?.equipped?.[String(rank)] || [];
 
-  characterName.textContent = character.name;
+  characterName.textContent = character.nameJa || character.name;
   characterStatus.textContent = tracked ? "管理中の使徒" : "未登録・装備情報のプレビュー";
   registrationButton.textContent = tracked ? "登録を解除" : "このキャラを登録";
   registrationButton.disabled = false;
