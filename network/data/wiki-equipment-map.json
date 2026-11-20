@@ -1,0 +1,2116 @@
+{
+  "version": 1,
+  "source": "https://wikiwiki.jp/thetrickal/装備ランク別等級表",
+  "categories": [
+    "hp",
+    "pa",
+    "ma",
+    "pd",
+    "md",
+    "cd",
+    "cr"
+  ],
+  "spriteCellSize": 64,
+  "gear": {
+    "Equip_Icon_Armor102": {
+      "rank": 1,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "古ぼけたマント"
+    },
+    "Equip_Icon_Weapon102": {
+      "rank": 1,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "硬いバケット"
+    },
+    "Equip_Icon_Armor108": {
+      "rank": 1,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "赤い布のベルト"
+    },
+    "Equip_Icon_Armor113": {
+      "rank": 1,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "水中メガネ"
+    },
+    "Equip_Icon_Accessory102": {
+      "rank": 1,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "糸の指輪"
+    },
+    "Equip_Icon_Accessory107": {
+      "rank": 1,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "古いコップ"
+    },
+    "Equip_Icon_Armor202": {
+      "rank": 2,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "ミニマント"
+    },
+    "Equip_Icon_Weapon202": {
+      "rank": 2,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "消しゴム付き鉛筆"
+    },
+    "Equip_Icon_Armor208": {
+      "rank": 2,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "流行遅れのベルト"
+    },
+    "Equip_Icon_Armor213": {
+      "rank": 2,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "ハート形の水中メガネ"
+    },
+    "Equip_Icon_Accessory202": {
+      "rank": 2,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "捨てられた指輪"
+    },
+    "Equip_Icon_Accessory208": {
+      "rank": 2,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "登山用ネックカバー"
+    },
+    "Equip_Icon_Armor302": {
+      "rank": 3,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "飛行マント"
+    },
+    "Equip_Icon_Weapon302": {
+      "rank": 3,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "栗のグローブ"
+    },
+    "Equip_Icon_Armor308": {
+      "rank": 3,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "スエードベルト"
+    },
+    "Equip_Icon_Armor313": {
+      "rank": 3,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "ダブルスターの水中メガネ"
+    },
+    "Equip_Icon_Accessory302": {
+      "rank": 3,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "関節注意指輪"
+    },
+    "Equip_Icon_Accessory308": {
+      "rank": 3,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "ボーダー柄の歯磨き用コップ"
+    },
+    "Equip_Icon_Armor402": {
+      "rank": 4,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "怪しいデザインのマント"
+    },
+    "Equip_Icon_Weapon402": {
+      "rank": 4,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "トウモロコシ脱穀手袋"
+    },
+    "Equip_Icon_Armor408": {
+      "rank": 4,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "ミニラビットベルト"
+    },
+    "Equip_Icon_Armor413": {
+      "rank": 4,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "カエルの水中メガネ"
+    },
+    "Equip_Icon_Accessory402": {
+      "rank": 4,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "分離されたメリケンサック"
+    },
+    "Equip_Icon_Accessory408": {
+      "rank": 4,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "プラスチックの歯磨き用コップ"
+    },
+    "Equip_Icon_Armor502": {
+      "rank": 5,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "オペラマント"
+    },
+    "Equip_Icon_Weapon502": {
+      "rank": 5,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "クリーム分割バゲット"
+    },
+    "Equip_Icon_Armor508": {
+      "rank": 5,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "野花の花冠"
+    },
+    "Equip_Icon_Armor513": {
+      "rank": 5,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "ウサギ耳のカチューシャ"
+    },
+    "Equip_Icon_Accessory502": {
+      "rank": 5,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "絶対の指輪"
+    },
+    "Equip_Icon_Accessory508": {
+      "rank": 5,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "高級歯磨き用コップ"
+    },
+    "Equip_Icon_Armor602": {
+      "rank": 6,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "キラキラフリルマント"
+    },
+    "Equip_Icon_Weapon602": {
+      "rank": 6,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "双翼の万年筆"
+    },
+    "Equip_Icon_Armor608": {
+      "rank": 6,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "星飾りのベルト"
+    },
+    "Equip_Icon_Armor613": {
+      "rank": 6,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "ダックウィングシュノーケル"
+    },
+    "Equip_Icon_Accessory602": {
+      "rank": 6,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "祈願の指輪"
+    },
+    "Equip_Icon_Accessory608": {
+      "rank": 6,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "キュートカップ"
+    },
+    "Equip_Icon_Armor702": {
+      "rank": 7,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "見習い魔法使いのマント"
+    },
+    "Equip_Icon_Weapon702": {
+      "rank": 7,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "青い鳥の万年筆"
+    },
+    "Equip_Icon_Armor708": {
+      "rank": 7,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "勝負師の祈願ベルト"
+    },
+    "Equip_Icon_Armor713": {
+      "rank": 7,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "深海調査用シュノーケル"
+    },
+    "Equip_Icon_Accessory702": {
+      "rank": 7,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "保護の指輪"
+    },
+    "Equip_Icon_Accessory708": {
+      "rank": 7,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "手作りの陶器コップ"
+    },
+    "Equip_Icon_Armor802": {
+      "rank": 8,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "中級魔法使いのマント"
+    },
+    "Equip_Icon_Weapon802": {
+      "rank": 8,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "超デコピン手袋"
+    },
+    "Equip_Icon_Armor808": {
+      "rank": 8,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "アメジストのティアラ"
+    },
+    "Equip_Icon_Armor813": {
+      "rank": 8,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "高級真珠のカチューシャ"
+    },
+    "Equip_Icon_Accessory802": {
+      "rank": 8,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "マナーの指輪"
+    },
+    "Equip_Icon_Accessory808": {
+      "rank": 8,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "カスタムタンブラー"
+    },
+    "Equip_Icon_Armor902": {
+      "rank": 9,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "大魔法使いのマント"
+    },
+    "Equip_Icon_Weapon902": {
+      "rank": 9,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "週末農場の手袋"
+    },
+    "Equip_Icon_Armor908": {
+      "rank": 9,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "プリンセスティアラ"
+    },
+    "Equip_Icon_Armor913": {
+      "rank": 9,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "プリンセスカチューシャ"
+    },
+    "Equip_Icon_Accessory902": {
+      "rank": 9,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "ワンパンリング"
+    },
+    "Equip_Icon_Accessory908": {
+      "rank": 9,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "トゥインクルタンブラー"
+    },
+    "Equip_Icon_Armor1002": {
+      "rank": 10,
+      "type": "hp",
+      "tier": 4,
+      "nameJa": "まばゆい職人のエプロン"
+    },
+    "Equip_Icon_Weapon1002": {
+      "rank": 10,
+      "type": "pa",
+      "tier": 4,
+      "nameJa": "安息のバベル"
+    },
+    "Equip_Icon_Armor1009": {
+      "rank": 10,
+      "type": "pd",
+      "tier": 3,
+      "nameJa": "ウィングイヤセット"
+    },
+    "Equip_Icon_Armor1015": {
+      "rank": 10,
+      "type": "md",
+      "tier": 3,
+      "nameJa": "夕焼けを切り裂くブーツ"
+    },
+    "Equip_Icon_Accessory1002": {
+      "rank": 10,
+      "type": "cd",
+      "tier": 4,
+      "nameJa": "スタービームターンテーブル"
+    },
+    "Equip_Icon_Accessory1008": {
+      "rank": 10,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "ピロンピロンミニゲーム"
+    },
+    "Equip_Icon_Weapon107": {
+      "rank": 1,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "小さなパン切り包丁"
+    },
+    "Equip_Icon_Armor107": {
+      "rank": 1,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "ゴムのショートパンツ"
+    },
+    "Equip_Icon_Armor112": {
+      "rank": 1,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "小さな仮面"
+    },
+    "Equip_Icon_Weapon207": {
+      "rank": 2,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "プラスチックのおたま"
+    },
+    "Equip_Icon_Armor207": {
+      "rank": 2,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "バックル付きショートパンツ"
+    },
+    "Equip_Icon_Armor212": {
+      "rank": 2,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "装飾仮面"
+    },
+    "Equip_Icon_Accessory209": {
+      "rank": 2,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "丈夫な小銭入れ"
+    },
+    "Equip_Icon_Weapon307": {
+      "rank": 3,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "アクアコルト"
+    },
+    "Equip_Icon_Armor307": {
+      "rank": 3,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "冒険家のショートパンツ"
+    },
+    "Equip_Icon_Armor312": {
+      "rank": 3,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "パーティーの仮面"
+    },
+    "Equip_Icon_Accessory309": {
+      "rank": 3,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "手作りネックカバー"
+    },
+    "Equip_Icon_Weapon407": {
+      "rank": 4,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "パーティーケーキ包丁"
+    },
+    "Equip_Icon_Armor407": {
+      "rank": 4,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "ジャージパンツ"
+    },
+    "Equip_Icon_Armor412": {
+      "rank": 4,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "クマの仮面"
+    },
+    "Equip_Icon_Accessory409": {
+      "rank": 4,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "スプリングマフラー"
+    },
+    "Equip_Icon_Weapon507": {
+      "rank": 5,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "風切り"
+    },
+    "Equip_Icon_Armor507": {
+      "rank": 5,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "作業ズボン"
+    },
+    "Equip_Icon_Armor512": {
+      "rank": 5,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "フグの水中メガネ"
+    },
+    "Equip_Icon_Accessory509": {
+      "rank": 5,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "ねじねじマフラー"
+    },
+    "Equip_Icon_Weapon607": {
+      "rank": 6,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "ブルーレモネード"
+    },
+    "Equip_Icon_Armor607": {
+      "rank": 6,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "ロックスタージーンズ"
+    },
+    "Equip_Icon_Armor612": {
+      "rank": 6,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "ライオンの仮面"
+    },
+    "Equip_Icon_Accessory609": {
+      "rank": 6,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "心を込めた手作りマフラー"
+    },
+    "Equip_Icon_Weapon707": {
+      "rank": 7,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "大容量モンスター！打破"
+    },
+    "Equip_Icon_Armor707": {
+      "rank": 7,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "ダウンパンツ"
+    },
+    "Equip_Icon_Armor712": {
+      "rank": 7,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "ケイソンの仮面"
+    },
+    "Equip_Icon_Accessory709": {
+      "rank": 7,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "リボン付きチョーカー"
+    },
+    "Equip_Icon_Weapon807": {
+      "rank": 8,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "星明りのランタン"
+    },
+    "Equip_Icon_Armor807": {
+      "rank": 8,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "スキーパンツ"
+    },
+    "Equip_Icon_Armor812": {
+      "rank": 8,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "クラウンシュノーケル"
+    },
+    "Equip_Icon_Accessory809": {
+      "rank": 8,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "アメジストのチョーカー"
+    },
+    "Equip_Icon_Weapon907": {
+      "rank": 9,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "エクスパンカリバー"
+    },
+    "Equip_Icon_Armor907": {
+      "rank": 9,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "防火ズボン"
+    },
+    "Equip_Icon_Armor912": {
+      "rank": 9,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "魔法戦士のシュノーケル"
+    },
+    "Equip_Icon_Accessory909": {
+      "rank": 9,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "レッドダイヤモンドのチョーカー"
+    },
+    "Equip_Icon_Weapon1007": {
+      "rank": 10,
+      "type": "ma",
+      "tier": 4,
+      "nameJa": "湧き出るティーカップ"
+    },
+    "Equip_Icon_Armor1008": {
+      "rank": 10,
+      "type": "pd",
+      "tier": 4,
+      "nameJa": "休日返上ピクニック帽子"
+    },
+    "Equip_Icon_Armor1014": {
+      "rank": 10,
+      "type": "md",
+      "tier": 4,
+      "nameJa": "夕焼け色の靴下"
+    },
+    "Equip_Icon_Accessory1009": {
+      "rank": 10,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "応援のカセットテープ"
+    },
+    "Equip_Icon_Armor101": {
+      "rank": 1,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "首元が伸びたTシャツ"
+    },
+    "Equip_Icon_Weapon101": {
+      "rank": 1,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "ボクサーグローブ"
+    },
+    "Equip_Icon_Armor106": {
+      "rank": 1,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "赤い首浮き輪"
+    },
+    "Equip_Icon_Armor111": {
+      "rank": 1,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "古いメガネ"
+    },
+    "Equip_Icon_Accessory103": {
+      "rank": 1,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "古いバンド"
+    },
+    "Equip_Icon_Accessory108": {
+      "rank": 1,
+      "type": "cr",
+      "tier": 3,
+      "nameJa": "冷却ネックカバー"
+    },
+    "Equip_Icon_Armor201": {
+      "rank": 2,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "足跡シャツ"
+    },
+    "Equip_Icon_Weapon201": {
+      "rank": 2,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "バイク用グローブ"
+    },
+    "Equip_Icon_Armor206": {
+      "rank": 2,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "可愛い首浮き輪"
+    },
+    "Equip_Icon_Armor211": {
+      "rank": 2,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "優等生メガネ"
+    },
+    "Equip_Icon_Accessory203": {
+      "rank": 2,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "柔らかバンド"
+    },
+    "Equip_Icon_Accessory207": {
+      "rank": 2,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "歯磨き用コップ"
+    },
+    "Equip_Icon_Armor301": {
+      "rank": 3,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "新品のシャツ"
+    },
+    "Equip_Icon_Weapon301": {
+      "rank": 3,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "最年長バゲット"
+    },
+    "Equip_Icon_Armor306": {
+      "rank": 3,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "花形首浮き輪"
+    },
+    "Equip_Icon_Armor311": {
+      "rank": 3,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "翼飾りのメガネ"
+    },
+    "Equip_Icon_Accessory303": {
+      "rank": 3,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "丈夫なバンド"
+    },
+    "Equip_Icon_Accessory307": {
+      "rank": 3,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "手作りキャンディ首飾り"
+    },
+    "Equip_Icon_Armor401": {
+      "rank": 4,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "春色のパーカー"
+    },
+    "Equip_Icon_Weapon401": {
+      "rank": 4,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "クロレラバゲット"
+    },
+    "Equip_Icon_Armor406": {
+      "rank": 4,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "スプリング救命胴衣"
+    },
+    "Equip_Icon_Armor411": {
+      "rank": 4,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "ワンポイントサングラス"
+    },
+    "Equip_Icon_Accessory403": {
+      "rank": 4,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "腕時計バンド"
+    },
+    "Equip_Icon_Accessory407": {
+      "rank": 4,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "ウサギの首飾り"
+    },
+    "Equip_Icon_Armor501": {
+      "rank": 5,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "長袖パーカー"
+    },
+    "Equip_Icon_Weapon501": {
+      "rank": 5,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "そよ風の手袋"
+    },
+    "Equip_Icon_Armor506": {
+      "rank": 5,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "緑の救命胴衣"
+    },
+    "Equip_Icon_Armor511": {
+      "rank": 5,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "ヒツジの仮面"
+    },
+    "Equip_Icon_Accessory503": {
+      "rank": 5,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "金属バックルの腕時計"
+    },
+    "Equip_Icon_Accessory507": {
+      "rank": 5,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "キツネの首飾り"
+    },
+    "Equip_Icon_Armor601": {
+      "rank": 6,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "スーパーニャンパーカー"
+    },
+    "Equip_Icon_Weapon601": {
+      "rank": 6,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "クラウドグローブ"
+    },
+    "Equip_Icon_Armor606": {
+      "rank": 6,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "星飾りの救命胴衣"
+    },
+    "Equip_Icon_Armor611": {
+      "rank": 6,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "フェイクサングラス"
+    },
+    "Equip_Icon_Accessory603": {
+      "rank": 6,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "健康チェック腕時計"
+    },
+    "Equip_Icon_Accessory607": {
+      "rank": 6,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "ライオンの首飾り"
+    },
+    "Equip_Icon_Armor701": {
+      "rank": 7,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "キュートラビットフード付きジャンパー"
+    },
+    "Equip_Icon_Weapon701": {
+      "rank": 7,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "深い眠りの手袋"
+    },
+    "Equip_Icon_Armor706": {
+      "rank": 7,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "救助隊員の救命胴衣"
+    },
+    "Equip_Icon_Armor711": {
+      "rank": 7,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "フラワーサングラス"
+    },
+    "Equip_Icon_Accessory703": {
+      "rank": 7,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "スマート腕時計"
+    },
+    "Equip_Icon_Accessory707": {
+      "rank": 7,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "クリスタルの首飾り"
+    },
+    "Equip_Icon_Armor801": {
+      "rank": 8,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "パワーウィングダウンジャケット"
+    },
+    "Equip_Icon_Weapon801": {
+      "rank": 8,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "破滅のバゲット"
+    },
+    "Equip_Icon_Armor806": {
+      "rank": 8,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "キュートハートの救命胴衣"
+    },
+    "Equip_Icon_Armor811": {
+      "rank": 8,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "隣町の悪役の仮面"
+    },
+    "Equip_Icon_Accessory803": {
+      "rank": 8,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "通信強化腕時計"
+    },
+    "Equip_Icon_Accessory807": {
+      "rank": 8,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "アメジストの首飾り"
+    },
+    "Equip_Icon_Armor901": {
+      "rank": 9,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "マジカル★ミラクルのロングダウン"
+    },
+    "Equip_Icon_Weapon901": {
+      "rank": 9,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "炎裂くバゲット"
+    },
+    "Equip_Icon_Armor906": {
+      "rank": 9,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "ピエロの救命胴衣"
+    },
+    "Equip_Icon_Armor911": {
+      "rank": 9,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "忘れられたヒーローの防塵マスク"
+    },
+    "Equip_Icon_Accessory903": {
+      "rank": 9,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "最高級の新作腕時計"
+    },
+    "Equip_Icon_Accessory907": {
+      "rank": 9,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "魔法戦士の首飾り"
+    },
+    "Equip_Icon_Armor1001": {
+      "rank": 10,
+      "type": "hp",
+      "tier": 5,
+      "nameJa": "もこもこジャンパー"
+    },
+    "Equip_Icon_Weapon1001": {
+      "rank": 10,
+      "type": "pa",
+      "tier": 5,
+      "nameJa": "平和守護棒"
+    },
+    "Equip_Icon_Armor1007": {
+      "rank": 10,
+      "type": "pd",
+      "tier": 5,
+      "nameJa": "MVP帽子"
+    },
+    "Equip_Icon_Armor1013": {
+      "rank": 10,
+      "type": "md",
+      "tier": 5,
+      "nameJa": "思い出のふかふかスリッパ"
+    },
+    "Equip_Icon_Accessory1003": {
+      "rank": 10,
+      "type": "cd",
+      "tier": 3,
+      "nameJa": "ミラクルモーニング"
+    },
+    "Equip_Icon_Accessory1007": {
+      "rank": 10,
+      "type": "cr",
+      "tier": 4,
+      "nameJa": "水飲みニャン"
+    },
+    "Equip_Icon_Armor103": {
+      "rank": 1,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "普通のホームウェア"
+    },
+    "Equip_Icon_Weapon110": {
+      "rank": 1,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "壊れた傘"
+    },
+    "Equip_Icon_Accessory105": {
+      "rank": 1,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "古いヘアブラシ"
+    },
+    "Equip_Icon_Accessory110": {
+      "rank": 1,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "あめ玉の耳飾り"
+    },
+    "Equip_Icon_Armor203": {
+      "rank": 2,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "ボーダー柄のホームウェア"
+    },
+    "Equip_Icon_Weapon210": {
+      "rank": 2,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "狙撃スリング"
+    },
+    "Equip_Icon_Accessory205": {
+      "rank": 2,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "斧形のヘアブラシ"
+    },
+    "Equip_Icon_Armor303": {
+      "rank": 3,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "チェック柄のホームウェア"
+    },
+    "Equip_Icon_Weapon310": {
+      "rank": 3,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "派手なパン切り包丁"
+    },
+    "Equip_Icon_Accessory305": {
+      "rank": 3,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "プロミスバンドの腕輪"
+    },
+    "Equip_Icon_Armor403": {
+      "rank": 4,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "ワンピースパジャマ"
+    },
+    "Equip_Icon_Weapon410": {
+      "rank": 4,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "アウトドアの懐中電灯"
+    },
+    "Equip_Icon_Accessory405": {
+      "rank": 4,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "革の腕輪"
+    },
+    "Equip_Icon_Armor503": {
+      "rank": 5,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "新緑のワンピースパジャマ"
+    },
+    "Equip_Icon_Weapon510": {
+      "rank": 5,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "三球三振"
+    },
+    "Equip_Icon_Accessory505": {
+      "rank": 5,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "ストラップの腕輪"
+    },
+    "Equip_Icon_Armor603": {
+      "rank": 6,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "パーティー用ワンピースパジャマ"
+    },
+    "Equip_Icon_Weapon610": {
+      "rank": 6,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "ウサギ飾りの傘"
+    },
+    "Equip_Icon_Accessory605": {
+      "rank": 6,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "バックルの腕輪"
+    },
+    "Equip_Icon_Armor703": {
+      "rank": 7,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "キュートラビットパジャマ"
+    },
+    "Equip_Icon_Weapon710": {
+      "rank": 7,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "正義の具現化"
+    },
+    "Equip_Icon_Accessory705": {
+      "rank": 7,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "宝石飾りの腕輪"
+    },
+    "Equip_Icon_Armor803": {
+      "rank": 8,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "遊び好きのパジャマ"
+    },
+    "Equip_Icon_Weapon810": {
+      "rank": 8,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "コールドゲーム"
+    },
+    "Equip_Icon_Accessory805": {
+      "rank": 8,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "金細工の腕輪"
+    },
+    "Equip_Icon_Armor903": {
+      "rank": 9,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "キングライオンパジャマ"
+    },
+    "Equip_Icon_Weapon910": {
+      "rank": 9,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "トゥインクルマイク"
+    },
+    "Equip_Icon_Accessory905": {
+      "rank": 9,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "魔法が宿る腕輪"
+    },
+    "Equip_Icon_Armor1003": {
+      "rank": 10,
+      "type": "hp",
+      "tier": 3,
+      "nameJa": "無敵防御プチスーツ"
+    },
+    "Equip_Icon_Weapon1010": {
+      "rank": 10,
+      "type": "ma",
+      "tier": 1,
+      "nameJa": "時間捕捉"
+    },
+    "Equip_Icon_Accessory1005": {
+      "rank": 10,
+      "type": "cd",
+      "tier": 1,
+      "nameJa": "細工師の皿"
+    },
+    "Equip_Icon_Armor104": {
+      "rank": 1,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "赤いスカート"
+    },
+    "Equip_Icon_Weapon108": {
+      "rank": 1,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "古いおたま"
+    },
+    "Equip_Icon_Armor109": {
+      "rank": 1,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "急ごしらえの三角帽子"
+    },
+    "Equip_Icon_Armor114": {
+      "rank": 1,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "普通のスリッパ"
+    },
+    "Equip_Icon_Armor204": {
+      "rank": 2,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "リボン付きスカート"
+    },
+    "Equip_Icon_Weapon208": {
+      "rank": 2,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "自動開閉傘"
+    },
+    "Equip_Icon_Armor209": {
+      "rank": 2,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "金箔の三角帽子"
+    },
+    "Equip_Icon_Armor214": {
+      "rank": 2,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "カチューシャ"
+    },
+    "Equip_Icon_Armor304": {
+      "rank": 3,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "ハート柄のスカート"
+    },
+    "Equip_Icon_Weapon308": {
+      "rank": 3,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "ペパミタンD"
+    },
+    "Equip_Icon_Armor309": {
+      "rank": 3,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "誕生日ケーキ帽子"
+    },
+    "Equip_Icon_Armor314": {
+      "rank": 3,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "ボーダー柄カチューシャ"
+    },
+    "Equip_Icon_Armor404": {
+      "rank": 4,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "春色のワンピース"
+    },
+    "Equip_Icon_Weapon408": {
+      "rank": 4,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "モンスター！打破"
+    },
+    "Equip_Icon_Armor409": {
+      "rank": 4,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "春色の花冠"
+    },
+    "Equip_Icon_Armor414": {
+      "rank": 4,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "クマ耳のカチューシャ"
+    },
+    "Equip_Icon_Armor504": {
+      "rank": 5,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "新緑のワンピース"
+    },
+    "Equip_Icon_Weapon508": {
+      "rank": 5,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "スターパン"
+    },
+    "Equip_Icon_Armor509": {
+      "rank": 5,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "匿名保証の目出し帽"
+    },
+    "Equip_Icon_Armor514": {
+      "rank": 5,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "緑のスニーカー"
+    },
+    "Equip_Icon_Armor604": {
+      "rank": 6,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "ピクニックワンピース"
+    },
+    "Equip_Icon_Weapon608": {
+      "rank": 6,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "双翼のパン"
+    },
+    "Equip_Icon_Armor609": {
+      "rank": 6,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "空の花の花冠"
+    },
+    "Equip_Icon_Armor614": {
+      "rank": 6,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "スーパーニャンカチューシャ"
+    },
+    "Equip_Icon_Armor704": {
+      "rank": 7,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "サマードレス"
+    },
+    "Equip_Icon_Weapon708": {
+      "rank": 7,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "オーブン無視パン"
+    },
+    "Equip_Icon_Armor709": {
+      "rank": 7,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "ガラスのティアラ"
+    },
+    "Equip_Icon_Armor714": {
+      "rank": 7,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "フリルカチューシャ"
+    },
+    "Equip_Icon_Armor804": {
+      "rank": 8,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "イブニングドレス"
+    },
+    "Equip_Icon_Weapon808": {
+      "rank": 8,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "幻のグレープサイダー"
+    },
+    "Equip_Icon_Armor809": {
+      "rank": 8,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "バイクウィングヘルメット"
+    },
+    "Equip_Icon_Armor814": {
+      "rank": 8,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "Uクラウンシュノーケル"
+    },
+    "Equip_Icon_Armor904": {
+      "rank": 9,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "舞踏会ドレス"
+    },
+    "Equip_Icon_Weapon908": {
+      "rank": 9,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "Nullコーラ"
+    },
+    "Equip_Icon_Armor909": {
+      "rank": 9,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "スーパーヒーローヘルメット"
+    },
+    "Equip_Icon_Armor914": {
+      "rank": 9,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "忘れられたヒーローのブーツ"
+    },
+    "Equip_Icon_Armor1004": {
+      "rank": 10,
+      "type": "hp",
+      "tier": 2,
+      "nameJa": "夕焼け色のドレス"
+    },
+    "Equip_Icon_Weapon1008": {
+      "rank": 10,
+      "type": "ma",
+      "tier": 3,
+      "nameJa": "本日の運勢"
+    },
+    "Equip_Icon_Armor1010": {
+      "rank": 10,
+      "type": "pd",
+      "tier": 2,
+      "nameJa": "秘密のヘルメット"
+    },
+    "Equip_Icon_Armor1016": {
+      "rank": 10,
+      "type": "md",
+      "tier": 2,
+      "nameJa": "スーパサンダーボード"
+    },
+    "Equip_Icon_Weapon104": {
+      "rank": 1,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "赤い鉛筆"
+    },
+    "Equip_Icon_Weapon204": {
+      "rank": 2,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "ミニイルカ水鉄砲"
+    },
+    "Equip_Icon_Weapon304": {
+      "rank": 3,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "ギフトでもらった鉛筆"
+    },
+    "Equip_Icon_Weapon404": {
+      "rank": 4,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "ニャンパン"
+    },
+    "Equip_Icon_Weapon504": {
+      "rank": 5,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "アクアスプラッシュ"
+    },
+    "Equip_Icon_Weapon604": {
+      "rank": 6,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "騎士のメリケンサック"
+    },
+    "Equip_Icon_Weapon704": {
+      "rank": 7,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "アクアキャロット"
+    },
+    "Equip_Icon_Weapon804": {
+      "rank": 8,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "霜ムースパン"
+    },
+    "Equip_Icon_Weapon904": {
+      "rank": 9,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "バタフライパン"
+    },
+    "Equip_Icon_Weapon1004": {
+      "rank": 10,
+      "type": "pa",
+      "tier": 2,
+      "nameJa": "素晴らしい会話"
+    },
+    "Equip_Icon_Accessory101": {
+      "rank": 1,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "アメ玉の指輪"
+    },
+    "Equip_Icon_Accessory106": {
+      "rank": 1,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "くるくるキャンディの首飾り"
+    },
+    "Equip_Icon_Accessory201": {
+      "rank": 2,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "宝石キャンディの指輪"
+    },
+    "Equip_Icon_Accessory301": {
+      "rank": 3,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "ガラスキャンディの指輪"
+    },
+    "Equip_Icon_Accessory401": {
+      "rank": 4,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "ウサギの宝石の指輪"
+    },
+    "Equip_Icon_Accessory501": {
+      "rank": 5,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "キツネ宝石の指輪"
+    },
+    "Equip_Icon_Accessory601": {
+      "rank": 6,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "ライオン宝石の指輪"
+    },
+    "Equip_Icon_Accessory701": {
+      "rank": 7,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "クリスタルの指輪"
+    },
+    "Equip_Icon_Accessory801": {
+      "rank": 8,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "アメジストの指輪"
+    },
+    "Equip_Icon_Accessory901": {
+      "rank": 9,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "ある女王の指輪"
+    },
+    "Equip_Icon_Accessory1001": {
+      "rank": 10,
+      "type": "cd",
+      "tier": 5,
+      "nameJa": "歯の守り手"
+    },
+    "Equip_Icon_Armor105": {
+      "rank": 1,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "赤いエプロン"
+    },
+    "Equip_Icon_Armor110": {
+      "rank": 1,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "リサイクル紙袋"
+    },
+    "Equip_Icon_Armor115": {
+      "rank": 1,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "古いスリッパ"
+    },
+    "Equip_Icon_Armor205": {
+      "rank": 2,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "可愛いエプロン"
+    },
+    "Equip_Icon_Armor210": {
+      "rank": 2,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "パンの香りが漂うパン袋"
+    },
+    "Equip_Icon_Armor215": {
+      "rank": 2,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "室内用スリッパ"
+    },
+    "Equip_Icon_Accessory210": {
+      "rank": 2,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "ぐるぐるキャンディの耳飾り"
+    },
+    "Equip_Icon_Armor305": {
+      "rank": 3,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "リボン付きエプロン"
+    },
+    "Equip_Icon_Armor310": {
+      "rank": 3,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "改良プレゼント袋"
+    },
+    "Equip_Icon_Armor315": {
+      "rank": 3,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "ダブルウィングの水中メガネ"
+    },
+    "Equip_Icon_Accessory310": {
+      "rank": 3,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "ミニポーチ"
+    },
+    "Equip_Icon_Armor405": {
+      "rank": 4,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "料理用エプロン"
+    },
+    "Equip_Icon_Armor410": {
+      "rank": 4,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "旧式の目出し帽"
+    },
+    "Equip_Icon_Armor415": {
+      "rank": 4,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "春色の靴"
+    },
+    "Equip_Icon_Accessory410": {
+      "rank": 4,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "クマのポーチ"
+    },
+    "Equip_Icon_Armor505": {
+      "rank": 5,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "小さなレディのエプロン"
+    },
+    "Equip_Icon_Armor510": {
+      "rank": 5,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "グリーンハートサングラス"
+    },
+    "Equip_Icon_Armor515": {
+      "rank": 5,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "リボン付き靴"
+    },
+    "Equip_Icon_Accessory510": {
+      "rank": 5,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "ミニラビットポーチ"
+    },
+    "Equip_Icon_Armor605": {
+      "rank": 6,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "フリルエプロン"
+    },
+    "Equip_Icon_Armor610": {
+      "rank": 6,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "スキー用目出し帽"
+    },
+    "Equip_Icon_Armor615": {
+      "rank": 6,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "ウィングスニーカー"
+    },
+    "Equip_Icon_Accessory610": {
+      "rank": 6,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "ミニニャンニャンポーチ"
+    },
+    "Equip_Icon_Armor705": {
+      "rank": 7,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "工芸家のエプロン"
+    },
+    "Equip_Icon_Armor710": {
+      "rank": 7,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "新品のヘルメット"
+    },
+    "Equip_Icon_Armor715": {
+      "rank": 7,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "ミドルブーツ"
+    },
+    "Equip_Icon_Accessory710": {
+      "rank": 7,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "革のトートバッグ"
+    },
+    "Equip_Icon_Armor805": {
+      "rank": 8,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "技術者のエプロン"
+    },
+    "Equip_Icon_Armor810": {
+      "rank": 8,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "パーティー用サングラス"
+    },
+    "Equip_Icon_Armor815": {
+      "rank": 8,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "イーグルウィングヘルメット"
+    },
+    "Equip_Icon_Accessory810": {
+      "rank": 8,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "ライラックのショルダーバッグ"
+    },
+    "Equip_Icon_Armor905": {
+      "rank": 9,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "芸術家のエプロン"
+    },
+    "Equip_Icon_Armor910": {
+      "rank": 9,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "誰ですかサングラス"
+    },
+    "Equip_Icon_Armor915": {
+      "rank": 9,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "魔法戦士のブーツ"
+    },
+    "Equip_Icon_Accessory910": {
+      "rank": 9,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "トゥインクルショルダーバッグ"
+    },
+    "Equip_Icon_Armor1005": {
+      "rank": 10,
+      "type": "hp",
+      "tier": 1,
+      "nameJa": "夢見る妖精のマント"
+    },
+    "Equip_Icon_Armor1011": {
+      "rank": 10,
+      "type": "pd",
+      "tier": 1,
+      "nameJa": "限定版カチューシャ"
+    },
+    "Equip_Icon_Armor1017": {
+      "rank": 10,
+      "type": "md",
+      "tier": 1,
+      "nameJa": "スーパサンダースケート"
+    },
+    "Equip_Icon_Accessory1010": {
+      "rank": 10,
+      "type": "cr",
+      "tier": 1,
+      "nameJa": "模造ケーキ"
+    },
+    "Equip_Icon_Weapon106": {
+      "rank": 1,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "エナジードリンク"
+    },
+    "Equip_Icon_Weapon206": {
+      "rank": 2,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "金属のメリケンサック"
+    },
+    "Equip_Icon_Weapon306": {
+      "rank": 3,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "華やかなマイク"
+    },
+    "Equip_Icon_Weapon406": {
+      "rank": 4,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "アクアショットガン"
+    },
+    "Equip_Icon_Weapon506": {
+      "rank": 5,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "キュウリダー"
+    },
+    "Equip_Icon_Weapon606": {
+      "rank": 6,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "アクアクラッシュ"
+    },
+    "Equip_Icon_Weapon706": {
+      "rank": 7,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "悲鳴のランタン"
+    },
+    "Equip_Icon_Weapon806": {
+      "rank": 8,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "ポッピングメリケンサック"
+    },
+    "Equip_Icon_Weapon906": {
+      "rank": 9,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "アクアキャノン"
+    },
+    "Equip_Icon_Weapon1006": {
+      "rank": 10,
+      "type": "ma",
+      "tier": 5,
+      "nameJa": "華やかなスプーン"
+    },
+    "Equip_Icon_Weapon103": {
+      "rank": 1,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "ミニ水鉄砲"
+    },
+    "Equip_Icon_Weapon203": {
+      "rank": 2,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "ライ麦バゲット"
+    },
+    "Equip_Icon_Weapon303": {
+      "rank": 3,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "ラーメン職人のおたま"
+    },
+    "Equip_Icon_Weapon403": {
+      "rank": 4,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "壊れた万年筆"
+    },
+    "Equip_Icon_Weapon503": {
+      "rank": 5,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "そよ風メリケンサック"
+    },
+    "Equip_Icon_Weapon603": {
+      "rank": 6,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "怒れるパン職人のバゲット"
+    },
+    "Equip_Icon_Weapon703": {
+      "rank": 7,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "オーブン破壊者のバゲット"
+    },
+    "Equip_Icon_Weapon803": {
+      "rank": 8,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "ふわふわの羽根ペン"
+    },
+    "Equip_Icon_Weapon903": {
+      "rank": 9,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "プラチナの羽根ペン"
+    },
+    "Equip_Icon_Weapon1003": {
+      "rank": 10,
+      "type": "pa",
+      "tier": 3,
+      "nameJa": "説得の手段"
+    },
+    "Equip_Icon_Weapon109": {
+      "rank": 1,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "スリング"
+    },
+    "Equip_Icon_Accessory104": {
+      "rank": 1,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "糸の腕輪"
+    },
+    "Equip_Icon_Accessory109": {
+      "rank": 1,
+      "type": "cr",
+      "tier": 2,
+      "nameJa": "古い小銭入れ"
+    },
+    "Equip_Icon_Weapon209": {
+      "rank": 2,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "高級レーザーポインター"
+    },
+    "Equip_Icon_Accessory204": {
+      "rank": 2,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "結び目の腕輪"
+    },
+    "Equip_Icon_Accessory206": {
+      "rank": 2,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "アメ玉の首飾り"
+    },
+    "Equip_Icon_Weapon309": {
+      "rank": 3,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "ストライク"
+    },
+    "Equip_Icon_Accessory304": {
+      "rank": 3,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "古いハンドミラー"
+    },
+    "Equip_Icon_Accessory306": {
+      "rank": 3,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "鉄製のヘアブラシ"
+    },
+    "Equip_Icon_Weapon409": {
+      "rank": 4,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "あなタ？ヌキマイク"
+    },
+    "Equip_Icon_Accessory404": {
+      "rank": 4,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "春色のハンドミラー"
+    },
+    "Equip_Icon_Accessory406": {
+      "rank": 4,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "ツボ押し兼用ヘアブラシ"
+    },
+    "Equip_Icon_Weapon509": {
+      "rank": 5,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "夜行キノコの懐中時計"
+    },
+    "Equip_Icon_Accessory504": {
+      "rank": 5,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "新緑のハンドミラー"
+    },
+    "Equip_Icon_Accessory506": {
+      "rank": 5,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "ふわふわブラシ"
+    },
+    "Equip_Icon_Weapon609": {
+      "rank": 6,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "三者凡退"
+    },
+    "Equip_Icon_Accessory604": {
+      "rank": 6,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "清明のハンドミラー"
+    },
+    "Equip_Icon_Accessory606": {
+      "rank": 6,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "ミニロールブラシ"
+    },
+    "Equip_Icon_Weapon709": {
+      "rank": 7,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "スリーアウト"
+    },
+    "Equip_Icon_Accessory704": {
+      "rank": 7,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "妖精のハンドミラー"
+    },
+    "Equip_Icon_Accessory706": {
+      "rank": 7,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "ヘアアイロン"
+    },
+    "Equip_Icon_Weapon809": {
+      "rank": 8,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "キュートハートマイク"
+    },
+    "Equip_Icon_Accessory804": {
+      "rank": 8,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "星空のハンドミラー"
+    },
+    "Equip_Icon_Accessory806": {
+      "rank": 8,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "多機能ヘアアイロン"
+    },
+    "Equip_Icon_Weapon909": {
+      "rank": 9,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "消えない光"
+    },
+    "Equip_Icon_Accessory904": {
+      "rank": 9,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "プリンセスハンドミラー"
+    },
+    "Equip_Icon_Accessory906": {
+      "rank": 9,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "最高級ヘアアイロン"
+    },
+    "Equip_Icon_Weapon1009": {
+      "rank": 10,
+      "type": "ma",
+      "tier": 2,
+      "nameJa": "瞬間キャッチ"
+    },
+    "Equip_Icon_Accessory1004": {
+      "rank": 10,
+      "type": "cd",
+      "tier": 2,
+      "nameJa": "暗算王の計算機"
+    },
+    "Equip_Icon_Accessory1006": {
+      "rank": 10,
+      "type": "cr",
+      "tier": 5,
+      "nameJa": "運命の時計"
+    },
+    "Equip_Icon_Weapon105": {
+      "rank": 1,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "おもちゃのメリケンサック"
+    },
+    "Equip_Icon_Weapon205": {
+      "rank": 2,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "ケーキ用パン切り包丁"
+    },
+    "Equip_Icon_Weapon305": {
+      "rank": 3,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "綿菓子のメリケンサック"
+    },
+    "Equip_Icon_Weapon405": {
+      "rank": 4,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "メリケンサックグローブ"
+    },
+    "Equip_Icon_Weapon505": {
+      "rank": 5,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "作家の万年筆"
+    },
+    "Equip_Icon_Weapon605": {
+      "rank": 6,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "彗星ブレード"
+    },
+    "Equip_Icon_Weapon705": {
+      "rank": 7,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "クーパーマンのメリケンサック"
+    },
+    "Equip_Icon_Weapon805": {
+      "rank": 8,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "アクアインパクト"
+    },
+    "Equip_Icon_Weapon905": {
+      "rank": 9,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "ブラストメリケンサック"
+    },
+    "Equip_Icon_Weapon1005": {
+      "rank": 10,
+      "type": "pa",
+      "tier": 1,
+      "nameJa": "永遠の小言"
+    }
+  }
+}

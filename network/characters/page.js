@@ -1,34 +1,19 @@
 const CHARACTER_STORAGE_KEY = "trickcal.characterEquipment.v1";
-const GEAR_SLOTS = [
-  "鎧・衣装",
-  "武器",
-  "帽子・物理防具",
-  "ブーツ・魔法防具",
-  "煌めく装飾品",
-  "華麗な装飾品",
-];
-
+const EQUIPMENT_TYPES = ["hp", "pa", "ma", "pd", "md", "cd", "cr"];
+const SLOT_NAMES = ["衣装", "武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
 const characterList = document.querySelector("#characterList");
 const characterCounter = document.querySelector("#characterCounter");
 const characterSearch = document.querySelector("#characterSearch");
 const trackedOnly = document.querySelector("#trackedOnly");
-const characterName = document.querySelector("#characterName");
-const characterStatus = document.querySelector("#characterStatus");
-const characterRank = document.querySelector("#characterRank");
-const characterProgress = document.querySelector("#characterProgress");
-const characterGear = document.querySelector("#characterGear");
-const registrationButton = document.querySelector("#registrationButton");
-const rankUpButton = document.querySelector("#rankUpButton");
-const characterSource = document.querySelector("#characterSource");
 
 let characters = [];
-let selectedId = "";
+let gearMap = {};
 let savedCharacters = loadSavedCharacters();
 
 function loadSavedCharacters() {
   try {
-    const saved = JSON.parse(localStorage.getItem(CHARACTER_STORAGE_KEY) || "{}");
-    return saved.characters && typeof saved.characters === "object" ? saved.characters : {};
+    const stored = JSON.parse(localStorage.getItem(CHARACTER_STORAGE_KEY) || "{}");
+    return stored.characters && typeof stored.characters === "object" ? stored.characters : {};
   } catch {
     return {};
   }
@@ -38,172 +23,160 @@ function saveCharacters() {
   localStorage.setItem(CHARACTER_STORAGE_KEY, JSON.stringify({ version: 1, characters: savedCharacters }));
 }
 
-function currentCharacter() {
-  return characters.find((character) => character.id === selectedId);
-}
-
-function currentProgress(character, rank) {
-  const equipped = savedCharacters[character.id]?.equipped?.[String(rank)] || [];
-  return equipped.filter(Boolean).length;
-}
-
-function makeElement(tag, className, content) {
-  const element = document.createElement(tag);
-  if (className) element.className = className;
-  if (content !== undefined) element.textContent = content;
-  return element;
+function progressFor(characterId, rank) {
+  return (savedCharacters[characterId]?.equipped?.[String(rank)] || []).filter(Boolean).length;
 }
 
 function renderList() {
   const query = characterSearch.value.trim().toLowerCase();
-  const onlyRegistered = trackedOnly.checked;
   const visible = characters.filter((character) => {
-    if (onlyRegistered && !savedCharacters[character.id]) return false;
-    return (character.nameJa || character.name).toLowerCase().includes(query) || character.name.toLowerCase().includes(query) || character.id.includes(query);
+    if (trackedOnly.checked && !savedCharacters[character.id]) return false;
+    return (character.nameJa || character.name).toLowerCase().includes(query)
+      || character.name.toLowerCase().includes(query)
+      || character.id.includes(query);
   });
 
-  visible.sort((a, b) => Number(Boolean(savedCharacters[b.id])) - Number(Boolean(savedCharacters[a.id])));
-  const registeredCount = characters.filter((character) => savedCharacters[character.id]).length;
-  characterCounter.textContent = "登録 " + registeredCount + " / " + characters.length;
+  characterCounter.textContent = "登録 " + characters.filter((character) => savedCharacters[character.id]).length + " / " + characters.length;
   characterList.replaceChildren();
 
   if (visible.length === 0) {
-    characterList.append(makeElement("p", "character-empty", "該当するキャラはありません。"));
+    const empty = document.createElement("p");
+    empty.className = "character-empty";
+    empty.textContent = "該当するキャラはありません。";
+    characterList.append(empty);
     return;
   }
 
   visible.forEach((character) => {
     const tracked = savedCharacters[character.id];
-    const row = makeElement("button", "character-item");
-    row.type = "button";
-    row.classList.toggle("is-active", character.id === selectedId);
-    const avatar = makeElement("span", "character-avatar");
-    const avatarImage = document.createElement("img");
-    avatarImage.src = "../assets/characters/" + character.iconKey + ".webp";
-    avatarImage.alt = "";
-    avatarImage.loading = "lazy";
-    avatar.append(avatarImage);
-    row.append(avatar);
-    row.append(makeElement("span", "character-item-name", character.nameJa || character.name));
-    row.append(makeElement("span", "character-item-rank", tracked ? "R" + tracked.rank + "・" + currentProgress(character, tracked.rank) + "/6" : "未登録"));
-    row.addEventListener("click", () => {
-      selectedId = character.id;
+    const rank = tracked?.rank || 1;
+    const equipped = tracked?.equipped?.[String(rank)] || [];
+    const name = character.nameJa || character.name;
+    const row = document.createElement("div");
+    row.className = "character-row";
+    row.classList.toggle("is-tracked", Boolean(tracked));
+
+    const identity = document.createElement("div");
+    identity.className = "character-identity";
+    const avatar = document.createElement("img");
+    avatar.src = "../assets/characters/" + character.iconKey + ".webp";
+    avatar.alt = "";
+    avatar.loading = "lazy";
+    const label = document.createElement("strong");
+    label.textContent = name;
+    identity.append(avatar, label);
+
+    const rankControls = document.createElement("div");
+    rankControls.className = "character-rank";
+    const rankSelect = document.createElement("select");
+    rankSelect.setAttribute("aria-label", name + "の現在Rank");
+    rankSelect.disabled = !tracked;
+    for (let n = 1; n <= 10; n += 1) {
+      rankSelect.add(new Option("R" + n, String(n)));
+    }
+    rankSelect.value = String(rank);
+    rankSelect.addEventListener("change", () => {
+      if (!savedCharacters[character.id]) return;
+      savedCharacters[character.id].rank = Number(rankSelect.value);
+      saveCharacters();
       renderList();
-      renderEditor();
     });
+
+    const rankUp = document.createElement("button");
+    rankUp.type = "button";
+    rankUp.className = "ghost-button";
+    rankUp.textContent = "↑";
+    rankUp.title = "装備6枠が揃ったら次のRankへ";
+    rankUp.setAttribute("aria-label", name + "を次のRankへ");
+    rankUp.disabled = !tracked || rank >= 10 || progressFor(character.id, rank) !== 6;
+    rankUp.addEventListener("click", () => {
+      const current = savedCharacters[character.id];
+      if (!current || current.rank >= 10 || progressFor(character.id, current.rank) !== 6) return;
+      current.rank += 1;
+      saveCharacters();
+      renderList();
+    });
+    rankControls.append(rankSelect, rankUp);
+
+    const gears = document.createElement("div");
+    gears.className = "character-gears";
+    (character.ranks[rank - 1] || []).forEach((piece, index) => {
+      const iconInfo = gearMap[piece[0]];
+      const isEquipped = Boolean(equipped[index]);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "character-gear-button";
+      button.classList.toggle("is-equipped", isEquipped);
+      button.disabled = !tracked;
+      button.setAttribute("aria-pressed", String(isEquipped));
+      const pieceName = iconInfo?.nameJa || piece[1];
+      button.title = SLOT_NAMES[index] + "： " + pieceName + "（" + (isEquipped ? "装着済み" : "未装着") + "）";
+      button.setAttribute("aria-label", name + " " + button.title);
+
+      const icon = document.createElement("span");
+      icon.className = "character-gear-icon";
+      if (iconInfo) {
+        const category = EQUIPMENT_TYPES.indexOf(iconInfo.type);
+        icon.style.backgroundImage = 'url("../assets/equipment/rank' + iconInfo.rank + '.webp")';
+        icon.style.backgroundPosition = (iconInfo.tier - 1) * 25 + "% " + (category / 6) * 100 + "%";
+      } else {
+        icon.textContent = "?";
+      }
+      button.append(icon);
+      button.addEventListener("click", () => {
+        const entry = savedCharacters[character.id];
+        if (!entry) return;
+        entry.equipped ||= {};
+        const values = entry.equipped[String(rank)] || [false, false, false, false, false, false];
+        values[index] = !values[index];
+        entry.equipped[String(rank)] = values;
+        saveCharacters();
+        renderList();
+      });
+      gears.append(button);
+    });
+
+    const progress = document.createElement("span");
+    progress.className = "character-progress";
+    progress.textContent = tracked ? progressFor(character.id, rank) + "/6" : "―";
+
+    const registration = document.createElement("button");
+    registration.type = "button";
+    registration.className = "ghost-button character-registration-button";
+    registration.textContent = tracked ? "解除" : "登録";
+    registration.setAttribute("aria-label", name + (tracked ? "の登録を解除" : "を登録"));
+    registration.addEventListener("click", () => {
+      if (savedCharacters[character.id]) {
+        if (!confirm(name + "の装備記録を削除しますか？")) return;
+        delete savedCharacters[character.id];
+      } else {
+        savedCharacters[character.id] = { rank: 1, equipped: {} };
+      }
+      saveCharacters();
+      renderList();
+    });
+
+    row.append(identity, rankControls, gears, progress, registration);
     characterList.append(row);
   });
 }
 
-function renderEditor() {
-  const character = currentCharacter();
-  if (!character) return;
-
-  const tracked = savedCharacters[character.id];
-  const rank = tracked?.rank || 1;
-  const pieces = character.ranks[rank - 1] || [];
-  const equipped = tracked?.equipped?.[String(rank)] || [];
-
-  characterName.textContent = character.nameJa || character.name;
-  characterStatus.textContent = tracked ? "管理中の使徒" : "未登録・装備情報のプレビュー";
-  registrationButton.textContent = tracked ? "登録を解除" : "このキャラを登録";
-  registrationButton.disabled = false;
-  characterSource.href = "https://soshage.com/trickcal/unit/" + character.id;
-  characterRank.replaceChildren();
-
-  for (let i = 1; i <= character.ranks.length; i += 1) {
-    const option = new Option("Rank " + i, String(i));
-    characterRank.add(option);
-  }
-
-  characterRank.value = String(rank);
-  characterRank.disabled = !tracked;
-  characterProgress.textContent = "装着済み " + currentProgress(character, rank) + " / " + pieces.length;
-  characterGear.replaceChildren();
-
-  pieces.forEach((piece, index) => {
-    const row = makeElement("label", "character-gear-item");
-    const isEquipped = Boolean(equipped[index]);
-    row.classList.toggle("is-equipped", isEquipped);
-    row.classList.toggle("is-disabled", !tracked);
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = isEquipped;
-    checkbox.disabled = !tracked;
-
-    const info = makeElement("span", "character-gear-info");
-    info.append(makeElement("strong", "", piece[1]));
-    info.append(makeElement("small", "", GEAR_SLOTS[index]));
-    row.append(checkbox, makeElement("span", "character-gear-index", String(index + 1)), info);
-
-    checkbox.addEventListener("change", () => {
-      const entry = savedCharacters[character.id];
-      if (!entry) return;
-      entry.equipped ||= {};
-      const values = entry.equipped[String(rank)] || [false, false, false, false, false, false];
-      values[index] = checkbox.checked;
-      entry.equipped[String(rank)] = values;
-      saveCharacters();
-      renderList();
-      renderEditor();
-    });
-
-    characterGear.append(row);
-  });
-
-  rankUpButton.disabled = !tracked || rank >= 10 || currentProgress(character, rank) !== pieces.length;
-  rankUpButton.textContent = rank >= 10 ? "Rank 10（最大）" : "Rank " + (rank + 1) + "へ進める";
-}
-
-registrationButton.addEventListener("click", () => {
-  const character = currentCharacter();
-  if (!character) return;
-  if (savedCharacters[character.id]) {
-    delete savedCharacters[character.id];
-  } else {
-    savedCharacters[character.id] = { rank: 1, equipped: {} };
-  }
-  saveCharacters();
-  renderList();
-  renderEditor();
-});
-
-characterRank.addEventListener("change", () => {
-  const character = currentCharacter();
-  if (!character || !savedCharacters[character.id]) return;
-  savedCharacters[character.id].rank = Number(characterRank.value);
-  saveCharacters();
-  renderList();
-  renderEditor();
-});
-
-rankUpButton.addEventListener("click", () => {
-  const character = currentCharacter();
-  if (!character) return;
-  const tracked = savedCharacters[character.id];
-  if (!tracked || tracked.rank >= 10 || currentProgress(character, tracked.rank) !== 6) return;
-  tracked.rank += 1;
-  saveCharacters();
-  renderList();
-  renderEditor();
-});
-
 characterSearch.addEventListener("input", renderList);
 trackedOnly.addEventListener("change", renderList);
 
-fetch("../data/characters-equipment.json")
-  .then((response) => {
-    if (!response.ok) throw new Error("装備データを取得できませんでした。");
+Promise.all([
+  fetch("../data/characters-equipment.json").then((response) => {
+    if (!response.ok) throw new Error("キャラ情報を取得できませんでした。");
     return response.json();
-  })
-  .then((data) => {
-    characters = data.characters || [];
-    selectedId = characters.find((character) => savedCharacters[character.id])?.id || characters[0]?.id || "";
-    renderList();
-    renderEditor();
-  })
-  .catch((error) => {
-    characterStatus.textContent = error.message;
-    characterList.append(makeElement("p", "character-empty", error.message));
-  });
+  }),
+  fetch("../data/wiki-equipment-map.json").then((response) => {
+    if (!response.ok) throw new Error("装備画像情報を取得できませんでした。");
+    return response.json();
+  }),
+]).then(([characterData, equipmentData]) => {
+  characters = characterData.characters || [];
+  gearMap = equipmentData.gear || {};
+  renderList();
+}).catch((error) => {
+  characterList.textContent = error.message;
+});

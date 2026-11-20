@@ -12,7 +12,7 @@
   <header class="app-header">
     <div>
       <h1>キャラ別装備管理</h1>
-      <p>キャラごとの現在Rankと、装着済みの6箇所を記録します。</p>
+      <p>装備アイコンを選択して、キャラごとの装着状況を記録します。</p>
     </div>
     <div class="header-actions">
       <a href="../">探索ネットワークへ戻る</a>
@@ -20,41 +20,33 @@
     </div>
   </header>
   <main class="character-layout">
-    <section class="character-browser">
-      <div class="character-browser-head">
-        <h2>使徒一覧</h2>
-        <span id="characterCounter"></span>
-      </div>
-      <div class="character-filters">
-        <input id="characterSearch" type="search" autocomplete="off" placeholder="キャラ名を検索" aria-label="キャラ名を検索">
-        <label class="character-filter-toggle">
-          <input id="trackedOnly" type="checkbox">
-          登録済みのみ表示
-        </label>
+    <div class="character-toolbar">
+      <label class="character-search">
+        <span>使徒検索</span>
+        <input id="characterSearch" type="search" autocomplete="off" placeholder="キャラ名を入力">
+      </label>
+      <label class="character-filter">
+        <input id="trackedOnly" type="checkbox">
+        登録済みのみ
+      </label>
+      <span id="characterCounter" class="character-counter"></span>
+    </div>
+    <p class="character-legend">装備画像をクリックして装着状態を変更します。薄い画像は装着済みです。Rank変更・装着状況は自動保存されます。</p>
+    <div class="character-roster-scroll">
+      <div class="character-roster-head" aria-hidden="true">
+        <span>使徒</span>
+        <span>現在Rank</span>
+        <span>装備（6枠）</span>
+        <span>装着</span>
+        <span>管理</span>
       </div>
       <div id="characterList" class="character-list"></div>
-    </section>
-    <section class="character-editor" aria-label="選択したキャラの装備">
-      <div class="character-editor-head">
-        <div>
-          <h2 id="characterName">キャラを選択</h2>
-          <p id="characterStatus">装備情報を読み込んでいます。</p>
-        </div>
-        <button id="registrationButton" type="button" class="ghost-button" disabled>登録する</button>
-      </div>
-      <div class="character-rank-controls">
-        <label for="characterRank">現在Rank
-          <select id="characterRank" disabled></select>
-        </label>
-        <div id="characterProgress" class="character-progress">装着済み 0 / 6</div>
-      </div>
-      <div id="characterGear" class="character-gear"></div>
-      <div class="character-editor-actions">
-        <button id="rankUpButton" type="button" disabled>次のRankへ</button>
-        <a id="characterSource" href="https://soshage.com/trickcal/unit" target="_blank" rel="noopener noreferrer">装備データの出典を見る</a>
-      </div>
-      <p class="character-storage-note">変更はこのブラウザに自動保存されます。設計図の所持数や完成済み装備の在庫は、この画面では消費しません。</p>
-    </section>
+    </div>
+    <p class="character-note">
+      装備名称とRank情報：<a href="https://soshage.com/trickcal/unit" target="_blank" rel="noopener noreferrer">soshage</a>。
+      装備画像・日本語名：<a href="https://wikiwiki.jp/thetrickal/装備ランク別等級表#rank10" target="_blank" rel="noopener noreferrer">トリッカルWiki</a>。
+      設計図や完成済み装備の在庫は、この画面では消費しません。
+    </p>
   </main>
   <script src="./page.js"></script>
 </body>
