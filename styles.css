@@ -867,7 +867,6 @@ input.compact-number {
 .network-info-strip {
   display: flex;
   align-items: stretch;
-/* justify-content: flex-end; */
   gap: 8px;
 }
 
