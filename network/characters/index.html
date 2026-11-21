@@ -31,6 +31,21 @@
           <span>使徒検索</span>
           <input id="characterSearch" type="search" autocomplete="off" placeholder="キャラ名を入力">
         </label>
+        <label class="character-sort-field">
+          <span>並び順</span>
+          <select id="characterSortMode">
+            <option value="species" selected>種族順</option>
+            <option value="name">50音順</option>
+            <option value="rank">保存Rank順</option>
+          </select>
+        </label>
+        <label class="character-sort-field">
+          <span>方向</span>
+          <select id="characterSortDirection">
+            <option value="asc" selected>昇順 ↑</option>
+            <option value="desc">降順 ↓</option>
+          </select>
+        </label>
         <label class="character-filter">
           <input id="trackedOnly" type="checkbox">
           登録済みのみ

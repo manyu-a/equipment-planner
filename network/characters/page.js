@@ -4,10 +4,14 @@ const EQUIPMENT_TYPES = ["hp", "pa", "ma", "pd", "md", "cd", "cr"];
 const SLOT_NAMES = ["衣装", "武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
 const EQUIPMENT_CATEGORY_NAMES = ["衣装", "物理武器", "魔法武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
 const INVENTORY_CATEGORY_ORDER = ["pa", "ma", "hp", "pd", "md", "cd", "cr"];
+const SPECIES_ORDER = ["妖精", "獣人", "エルフ", "精霊", "幽霊", "竜族", "魔女", "ミスティック"];
+const JAPANESE_COLLATOR = new Intl.Collator("ja");
 const characterList = document.querySelector("#characterList");
 const characterCounter = document.querySelector("#characterCounter");
 const characterSearch = document.querySelector("#characterSearch");
 const trackedOnly = document.querySelector("#trackedOnly");
+const characterSortMode = document.querySelector("#characterSortMode");
+const characterSortDirection = document.querySelector("#characterSortDirection");
 const registerAllButton = document.querySelector("#registerAllButton");
 const unregisterAllButton = document.querySelector("#unregisterAllButton");
 const characterTabButton = document.querySelector("#characterTabButton");
@@ -80,6 +84,16 @@ function progressFor(characterId, rank) {
   return (savedCharacters[characterId]?.equipped?.[String(rank)] || []).filter(Boolean).length;
 }
 
+function compareCharacterNames(a, b) {
+  return JAPANESE_COLLATOR.compare(a.nameJa || a.name, b.nameJa || b.name);
+}
+
+function compareCodepointNames(a, b) {
+  const left = a.nameJa || a.name;
+  const right = b.nameJa || b.name;
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
 function renderList() {
   const query = characterSearch.value.trim().toLowerCase();
   const visible = characters.filter((character) => {
@@ -87,6 +101,25 @@ function renderList() {
     return (character.nameJa || character.name).toLowerCase().includes(query)
       || character.name.toLowerCase().includes(query)
       || character.id.includes(query);
+  });
+
+  const direction = characterSortDirection.value === "desc" ? -1 : 1;
+  visible.sort((a, b) => {
+    let difference;
+    if (characterSortMode.value === "species") {
+      difference = SPECIES_ORDER.indexOf(a.species) - SPECIES_ORDER.indexOf(b.species);
+      if (difference === 0) difference = compareCodepointNames(a, b);
+    } else if (characterSortMode.value === "rank") {
+      const rankA = savedCharacters[a.id]?.rank;
+      const rankB = savedCharacters[b.id]?.rank;
+      if (rankA == null && rankB != null) return 1;
+      if (rankA != null && rankB == null) return -1;
+      difference = rankA == null ? 0 : rankA - rankB;
+      if (difference === 0) difference = compareCharacterNames(a, b);
+    } else {
+      difference = compareCharacterNames(a, b);
+    }
+    return difference * direction || Number(a.id) - Number(b.id);
   });
 
   const registeredCount = characters.filter((character) => savedCharacters[character.id]).length;
@@ -360,6 +393,8 @@ function renderGearInventory() {
 
 characterSearch.addEventListener("input", renderList);
 trackedOnly.addEventListener("change", renderList);
+characterSortMode.addEventListener("change", renderList);
+characterSortDirection.addEventListener("change", renderList);
 
 Promise.all([
   fetch("../data/characters-equipment.json").then((response) => {
