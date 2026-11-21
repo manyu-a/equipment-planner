@@ -1,5 +1,7 @@
 const DATA = window.TRICKCAL_EQUIPMENT_DATA;
 const STORAGE_KEY = "trickcal-equipment-planner:v1";
+const CHARACTER_EQUIPMENT_STORAGE_KEY = "trickcal.characterEquipment.v1";
+const FINISHED_EQUIPMENT_STORAGE_KEY = "trickcal.finishedEquipment.v1";
 
 const SLOT_LABELS = {
   armor: "鎧",
@@ -2723,9 +2725,11 @@ function stageProgressScore(stageId) {
 
 function exportState() {
   const payload = {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     state,
+    characterEquipment: JSON.parse(localStorage.getItem(CHARACTER_EQUIPMENT_STORAGE_KEY) || '{"version":1,"characters":{}}'),
+    finishedEquipment: JSON.parse(localStorage.getItem(FINISHED_EQUIPMENT_STORAGE_KEY) || '{"version":1,"counts":{}}'),
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
@@ -2745,6 +2749,24 @@ function importState(event) {
     try {
       const imported = JSON.parse(String(reader.result));
       const importedState = imported.state || imported;
+      if (imported.characterEquipment !== undefined) {
+        const characters = imported.characterEquipment?.characters;
+        if (!characters || typeof characters !== "object" || Array.isArray(characters)) {
+          throw new Error("使徒装備データの形式が不正です。");
+        }
+      }
+      if (imported.finishedEquipment !== undefined) {
+        const counts = imported.finishedEquipment?.counts;
+        if (!counts || typeof counts !== "object" || Array.isArray(counts)) {
+          throw new Error("個別装備在庫データの形式が不正です。");
+        }
+      }
+      if (imported.characterEquipment !== undefined) {
+        localStorage.setItem(CHARACTER_EQUIPMENT_STORAGE_KEY, JSON.stringify(imported.characterEquipment));
+      }
+      if (imported.finishedEquipment !== undefined) {
+        localStorage.setItem(FINISHED_EQUIPMENT_STORAGE_KEY, JSON.stringify(imported.finishedEquipment));
+      }
       Object.assign(state, createDefaultState(), importedState);
       migrateCompletedStock(state);
       rankSelect.value = String(state.targetRank);

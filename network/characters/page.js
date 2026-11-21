@@ -1,7 +1,8 @@
 const CHARACTER_STORAGE_KEY = "trickcal.characterEquipment.v1";
 const FINISHED_EQUIPMENT_STORAGE_KEY = "trickcal.finishedEquipment.v1";
 const EQUIPMENT_TYPES = ["hp", "pa", "ma", "pd", "md", "cd", "cr"];
-const SLOT_NAMES = ["衣装", "武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
+const SLOT_NAMES = ["服", "武器", "帽子", "ブーツ", "煌めく装飾品", "華麗な装飾品"];
+const CHARACTER_GEAR_DISPLAY_ORDER = [0, 2, 1, 4, 5, 3];
 const EQUIPMENT_CATEGORY_NAMES = ["衣装", "物理武器", "魔法武器", "物理防具", "魔法防具", "煌めく装飾品", "華麗な装飾品"];
 const INVENTORY_CATEGORY_ORDER = ["pa", "ma", "hp", "pd", "md", "cd", "cr"];
 const SPECIES_ORDER = ["妖精", "獣人", "エルフ", "精霊", "幽霊", "竜族", "魔女", "ミスティック"];
@@ -195,7 +196,10 @@ function renderList() {
 
     const gears = document.createElement("div");
     gears.className = "character-gears";
-    (character.ranks[rank - 1] || []).forEach((piece, index) => {
+    const pieces = character.ranks[rank - 1] || [];
+    CHARACTER_GEAR_DISPLAY_ORDER.forEach((index) => {
+      const piece = pieces[index];
+      if (!piece) return;
       const iconInfo = gearMap[piece[0]];
       const isEquipped = Boolean(equipped[index]);
       const button = document.createElement("button");
