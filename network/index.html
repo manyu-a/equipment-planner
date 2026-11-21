@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <base href="../">
-  <title>探索ネットワーク試験 | トリッカル装備周回メモ</title>
+  <title>キャラ別装備管理・探索ネットワーク | トリッカル装備周回メモ</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./network/page.css">
 </head>
 <body class="network-trial-page">
   <header class="app-header">
     <div>
-      <h1>探索ネットワーク試験</h1>
+      <h1>キャラ別装備管理・探索ネットワーク</h1>
     </div>
     <div class="header-actions">
-      <a href="./network/characters/">キャラ別装備管理</a>
+      <a href="./network/characters/">使徒一覧・個別装備在庫</a>
       <a href="./">通常ページへ戻る</a>
       <button id="settingsButton" type="button">設定</button>
     </div>
@@ -65,13 +65,21 @@
         <select id="rankSelect"></select>
       </div>
       <div class="field">
-        <label for="buildSelect">型</label>
-        <select id="buildSelect">
-          <option value="physical">物理</option>
-          <option value="magic">魔法</option>
+        <label for="characterSelect">キャラ選択</label>
+        <select id="characterSelect" disabled>
+          <option value="">読み込み中</option>
         </select>
       </div>
+      <span id="characterDataStatus" class="network-character-data-status" role="status"></span>
       <button id="consumeEquipmentButton" type="button" class="ghost-button">全装備を装着して消費</button>
+    </section>
+
+    <section class="network-character-section" aria-label="選択使徒の装備">
+      <div class="network-character-section-heading">
+        <h2>選択使徒の装備状況</h2>
+        <span id="networkCharacterEquipmentSummary"></span>
+      </div>
+      <div id="networkCharacterEquipment" class="network-character-equipment"></div>
     </section>
 
     <section id="standaloneNetworkDock" class="network-standalone-dock"></section>
@@ -139,7 +147,7 @@
                     <div class="network-legend-body" aria-label="ネットワーク凡例">
                       <span><i class="legend-node is-primary"></i>対象素材</span>
                       <span><i class="legend-node"></i>関連素材</span>
-                      <span><i class="legend-node is-off-build"></i>現在の型では対象外</span>
+                      <span><i class="legend-node is-off-build"></i>選択使徒の攻撃タイプでは対象外</span>
                       <span><i class="legend-line is-selected"></i>採用</span>
                       <span><i class="legend-line is-manual"></i>手動選択</span>
                       <span><i class="legend-line"></i>候補</span>
@@ -170,6 +178,7 @@
                 <span>所持数</span>
                 <span id="networkMaterialEditorControl"></span>
               </label>
+              <section id="networkCharacterGearEditor" class="network-character-node-editor" hidden></section>
               <div class="network-material-editor-actions">
                 <button id="networkMaterialEditorCancel" type="button" class="ghost-button">キャンセル</button>
                 <button id="networkMaterialEditorMax" type="button" class="ghost-button">Max</button>
@@ -182,7 +191,7 @@
   </main>
 
   <script src="./data/equipment-data.js"></script>
-  <script src="./app.js"></script>
+  <script src="./network/app.js"></script>
   <script src="./network/page.js"></script>
 </body>
 </html>
