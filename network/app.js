@@ -2029,14 +2029,6 @@ function openNetworkMaterialEditor(materialId, node) {
       <button type="button" class="ghost-button" data-network-step="1" aria-label="所持数を1増やす">＋</button>
     </span>
   `;
-  window.TRICKCAL_NETWORK?.mountNodeEditor(
-    document.querySelector("#networkCharacterGearEditor"),
-    material.slot,
-    () => {
-      networkMaterialEditorDirty = true;
-      networkRedrawPending = true;
-    }
-  );
   networkMaterialEditor.hidden = false;
 
   const contentRect = networkMaterialEditor.parentElement.getBoundingClientRect();
@@ -2067,7 +2059,6 @@ function openNetworkMaterialEditor(materialId, node) {
 }
 
 function closeNetworkMaterialEditor() {
-  window.TRICKCAL_NETWORK?.closeNodeEditor();
   editingNetworkMaterialId = "";
   editingNetworkMaterialOriginalValue = 0;
   networkMaterialEditorDirty = false;
@@ -2086,7 +2077,6 @@ function finishNetworkMaterialEditor() {
 
 function cancelNetworkMaterialEditor() {
   if (!editingNetworkMaterialId) return;
-  window.TRICKCAL_NETWORK?.cancelNodeEditor();
   const materialId = editingNetworkMaterialId;
   const originalValue = editingNetworkMaterialOriginalValue;
   const shouldRefresh = networkMaterialEditorDirty;

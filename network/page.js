@@ -12,7 +12,6 @@ let characterGearMap = {};
 let trackedCharacters = {};
 let finishedGearCounts = {};
 let characterDataReady = false;
-let nodeEditorSnapshot = null;
 
 function readCharacterStorage() {
   try {
@@ -245,62 +244,6 @@ function refreshCharacterData() {
   renderCharacterEquipment();
 }
 
-function mountNodeGearEditor(target, slot, onChange) {
-  target.replaceChildren();
-  const status = slotStatus(slot);
-  if (!status) {
-    target.hidden = true;
-    nodeEditorSnapshot = null;
-    return;
-  }
-  target.hidden = false;
-  nodeEditorSnapshot = {
-    key: status.key,
-    index: status.index,
-    stock: status.stock,
-    equipped: status.equipped,
-    characterId: status.characterId,
-    rank: state.targetRank,
-  };
-  const heading = document.createElement("strong");
-  heading.textContent = "選択使徒の装備：" + status.name;
-  const label = document.createElement("label");
-  label.className = "network-node-gear-equipped";
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.checked = status.equipped;
-  label.append(checkbox, document.createTextNode("装着済み"));
-  checkbox.addEventListener("change", () => {
-    setCharacterEquipped(status.index, checkbox.checked, false);
-    onChange();
-  });
-  const stockTitle = document.createElement("span");
-  stockTitle.textContent = "完成済み装備の在庫";
-  target.append(heading, label, stockTitle);
-  addStockControls(target, status, onChange);
-}
-
-function cancelNodeGearEditor() {
-  if (!nodeEditorSnapshot) return;
-  const saved = nodeEditorSnapshot;
-  const record = trackedCharacters[saved.characterId];
-  if (record) {
-    record.equipped ||= {};
-    const values = record.equipped[String(saved.rank)] || [false, false, false, false, false, false];
-    values[saved.index] = saved.equipped;
-    record.equipped[String(saved.rank)] = values;
-    saveTrackedCharacters();
-  }
-  if (saved.stock === 0) delete finishedGearCounts[saved.key];
-  else finishedGearCounts[saved.key] = saved.stock;
-  saveFinishedGear();
-  renderCharacterEquipment();
-}
-
-function closeNodeGearEditor() {
-  nodeEditorSnapshot = null;
-}
-
 characterSelect.addEventListener("change", () => {
   if (editingNetworkMaterialId) finishNetworkMaterialEditor();
   const selectedId = characterSelect.value;
@@ -329,9 +272,6 @@ window.TRICKCAL_NETWORK = {
     renderCharacterEquipment();
   },
   refreshFromStorage: refreshCharacterData,
-  mountNodeEditor: mountNodeGearEditor,
-  cancelNodeEditor: cancelNodeGearEditor,
-  closeNodeEditor: closeNodeGearEditor,
 };
 
 window.addEventListener("storage", (event) => {

@@ -184,38 +184,6 @@
   margin: 0;
 }
 
-.network-character-node-editor {
-  display: grid;
-  gap: 7px;
-  padding: 10px 0;
-  border-top: 1px solid var(--line);
-}
-
-.network-character-node-editor[hidden] {
-  display: none;
-}
-
-.network-character-node-editor > strong {
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-
-.network-character-node-editor > span {
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.network-node-gear-equipped {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 12px;
-}
-
-.network-character-node-editor .network-gear-stock-controls {
-  justify-content: start;
-}
-
 @media (max-width: 620px) {
   .network-trial-page .controls-band {
     gap: 8px;
