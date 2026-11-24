@@ -163,6 +163,7 @@ function renderCharacterEquipment() {
   characterEquipmentPanel.replaceChildren();
   const character = selectedCharacter();
   if (!character) {
+    consumeEquipmentButton.disabled = true;
     characterEquipmentSummary.textContent = "使徒を選択してください。";
     return;
   }
@@ -172,9 +173,9 @@ function renderCharacterEquipment() {
   }));
   const equippedCount = slots.filter((item) => item.status?.equipped).length;
   const availableCount = slots.filter((item) => !item.status?.equipped && item.status?.stock > 0).length;
+  consumeEquipmentButton.disabled = state.targetRank >= 10 && equippedCount === 6;
   characterEquipmentSummary.textContent =
-    "現在Rank " + trackedCharacters[character.id].rank
-    + " / 目標Rank " + state.targetRank
+    "Rank " + state.targetRank
     + " ・装着済み " + equippedCount + "/6 ・未装着の在庫あり " + availableCount + "枠";
 
   slots.forEach(({ index, status }) => {
@@ -214,19 +215,21 @@ function renderCharacterChoices() {
   if (registered.length === 0) {
     characterSelect.add(new Option("登録済みの使徒がいません", ""));
     characterSelect.disabled = true;
+    rankSelect.disabled = true;
     state.selectedCharacterId = "";
     characterDataStatus.textContent = "使徒一覧から使徒を登録してください。";
   } else {
     characterSelect.disabled = false;
+    rankSelect.disabled = false;
     registered.forEach((character) => {
       const rank = trackedCharacters[character.id]?.rank || 1;
       characterSelect.add(new Option((character.nameJa || character.name) + "（R" + rank + "）", character.id));
     });
     if (!registered.some((character) => character.id === state.selectedCharacterId)) {
       state.selectedCharacterId = registered[0].id;
-      state.targetRank = Math.max(2, Math.min(10, Number(trackedCharacters[state.selectedCharacterId]?.rank) || 2));
     }
     characterSelect.value = state.selectedCharacterId;
+    state.targetRank = Math.max(1, Math.min(10, Math.trunc(Number(trackedCharacters[state.selectedCharacterId]?.rank) || 1)));
     rankSelect.value = String(state.targetRank);
     characterDataStatus.textContent = "";
   }
@@ -236,12 +239,92 @@ function renderCharacterChoices() {
 
 function refreshCharacterData() {
   if (!characterDataReady) return;
-  const previous = state.selectedCharacterId;
   trackedCharacters = readCharacterStorage();
   finishedGearCounts = readFinishedStorage();
   renderCharacterChoices();
-  if (previous !== state.selectedCharacterId) rankSelect.value = String(state.targetRank);
   renderCharacterEquipment();
+}
+
+function consumeCharacterEquipment() {
+  if (editingNetworkMaterialId) finishNetworkMaterialEditor();
+  const character = selectedCharacter();
+  if (!character) return;
+
+  const rank = state.targetRank;
+  const gearSlots = selectedSlots().map((slot) => ({ slot, gear: slotStatus(slot) }));
+  if (gearSlots.length !== 6 || gearSlots.some(({ gear }) => !gear || !gear.info)) {
+    alert("使徒の装備データが不足しているため、消費できません。");
+    return;
+  }
+
+  const pending = gearSlots.filter(({ gear }) => !gear.equipped);
+  if (pending.length === 0 && rank >= 10) return;
+  const stockChanges = new Map();
+  const materialChanges = new Map();
+  const requirements = requirementsForRank();
+  const unknown = [];
+
+  for (const { slot, gear } of pending) {
+    const reserved = stockChanges.get(gear.key) || 0;
+    if (gear.stock > reserved) {
+      stockChanges.set(gear.key, reserved + 1);
+      continue;
+    }
+
+    const recipe = requirements.map((req) => ({
+      material: materialForRequirement(req, slot),
+      amount: getRequirementAmount(req),
+    }));
+    if (!recipe.length || recipe.some(({ material, amount }) => !material || amount <= 0)) {
+      unknown.push(gear.name);
+      continue;
+    }
+
+    recipe.forEach(({ material, amount }) => {
+      materialChanges.set(material.id, (materialChanges.get(material.id) || 0) + amount);
+    });
+  }
+
+  if (unknown.length > 0) {
+    alert("製作に必要な設計図データがありません。完成品を登録するか、装着状態を手動で更新してください。\n" + unknown.join("\n"));
+    return;
+  }
+
+  const missing = [...materialChanges]
+    .filter(([id, amount]) => materialCount(id) < amount)
+    .map(([id, amount]) => materialSlotName(byMaterial.get(id)) + " " + (amount - materialCount(id)) + "個");
+
+  const name = character.nameJa || character.name;
+  const result = rank < 10
+    ? "全6枠の装着を完了し、Rank " + (rank + 1) + "へ進めます。"
+    : "Rank 10の全6枠の装着を完了します。";
+  let message = name + "（Rank " + rank + "）の未装着 " + pending.length + "枠を装着します。\n"
+    + "完成品在庫を優先して消費し、不足する完成品は設計図から製作します。\n"
+    + result;
+  if (missing.length > 0) {
+    message += "\n\n不足している設計図：\n" + missing.join("\n")
+      + "\n\n通常ページと同様に、不足分は0未満にせず、所持数を0まで消費して装着扱いにします。";
+  }
+  if (!confirm(message + "\n\n実行しますか？")) return;
+
+  stockChanges.forEach((amount, key) => {
+    const next = Math.max(0, (Number(finishedGearCounts[key]) || 0) - amount);
+    if (next === 0) delete finishedGearCounts[key];
+    else finishedGearCounts[key] = next;
+  });
+  materialChanges.forEach((amount, id) => {
+    state.materials[id] = Math.max(0, materialCount(id) - amount);
+  });
+
+  const entry = trackedCharacters[character.id];
+  entry.equipped ||= {};
+  entry.equipped[String(rank)] = [true, true, true, true, true, true];
+  if (rank < 10) entry.rank = rank + 1;
+  saveFinishedGear();
+  saveTrackedCharacters();
+  renderCharacterChoices();
+  renderCharacterEquipment();
+  persistAndRender();
 }
 
 characterSelect.addEventListener("change", () => {
@@ -249,10 +332,7 @@ characterSelect.addEventListener("change", () => {
   const selectedId = characterSelect.value;
   if (!trackedCharacters[selectedId]) return;
   state.selectedCharacterId = selectedId;
-  state.targetRank = Math.max(2, Math.min(10, Number(trackedCharacters[selectedId]?.rank) || 2));
-  rankSelect.value = String(state.targetRank);
-  synchronizeCharacterBuild();
-  persistState();
+  renderCharacterChoices();
   renderCharacterEquipment();
   render();
 });
@@ -266,11 +346,17 @@ document.querySelector("#networkPlacementSelect").addEventListener("change", () 
 window.TRICKCAL_NETWORK = {
   selected: selectedCharacter,
   slotStatus,
-  onTargetRankChange() {
+  onTargetRankChange(rank) {
     if (editingNetworkMaterialId) finishNetworkMaterialEditor();
-    synchronizeCharacterBuild();
+    const character = selectedCharacter();
+    if (!character || !Number.isInteger(rank) || rank < 1 || rank > 10) return;
+    trackedCharacters[character.id].rank = rank;
+    saveTrackedCharacters();
+    renderCharacterChoices();
     renderCharacterEquipment();
+    persistAndRender();
   },
+  consumeCharacterEquipment,
   refreshFromStorage: refreshCharacterData,
 };
 

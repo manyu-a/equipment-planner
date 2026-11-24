@@ -178,21 +178,7 @@ function renderList() {
       renderList();
     });
 
-    const rankUp = document.createElement("button");
-    rankUp.type = "button";
-    rankUp.className = "ghost-button";
-    rankUp.textContent = "↑";
-    rankUp.title = "装備6枠が揃ったら次のRankへ";
-    rankUp.setAttribute("aria-label", name + "を次のRankへ");
-    rankUp.disabled = !tracked || rank >= 10 || progressFor(character.id, rank) !== 6;
-    rankUp.addEventListener("click", () => {
-      const current = savedCharacters[character.id];
-      if (!current || current.rank >= 10 || progressFor(character.id, current.rank) !== 6) return;
-      current.rank += 1;
-      saveCharacters();
-      renderList();
-    });
-    rankControls.append(rankSelect, rankUp);
+    rankControls.append(rankSelect);
 
     const gears = document.createElement("div");
     gears.className = "character-gears";
@@ -399,6 +385,22 @@ characterSearch.addEventListener("input", renderList);
 trackedOnly.addEventListener("change", renderList);
 characterSortMode.addEventListener("change", renderList);
 characterSortDirection.addEventListener("change", renderList);
+
+function refreshSavedEquipment() {
+  savedCharacters = loadSavedCharacters();
+  finishedEquipment = loadFinishedEquipment();
+  renderList();
+  if (!inventoryTabPanel.hidden) renderGearInventory();
+}
+
+window.addEventListener("storage", (event) => {
+  if (event.key === CHARACTER_STORAGE_KEY || event.key === FINISHED_EQUIPMENT_STORAGE_KEY || event.key === null) {
+    refreshSavedEquipment();
+  }
+});
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) refreshSavedEquipment();
+});
 
 Promise.all([
   fetch("../data/characters-equipment.json").then((response) => {

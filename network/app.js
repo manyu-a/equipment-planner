@@ -107,7 +107,7 @@ let summaryHeightObserver = null;
 init();
 
 function init() {
-  [10, 9, 8, 7, 6, 5, 4, 3, 2].forEach((rank) => {
+  [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].forEach((rank) => {
     const option = document.createElement("option");
     option.value = String(rank);
     option.textContent = `Rank ${rank}`;
@@ -121,9 +121,7 @@ function init() {
   updateCalculationControls();
 
   rankSelect.addEventListener("change", () => {
-    state.targetRank = Number(rankSelect.value);
-    window.TRICKCAL_NETWORK?.onTargetRankChange();
-    persistAndRender();
+    window.TRICKCAL_NETWORK?.onTargetRankChange(Number(rankSelect.value));
   });
 
   inputModeSelect.addEventListener("change", () => {
@@ -408,55 +406,7 @@ function setCompleted(slot, value) {
 }
 
 function consumeCompletedEquipment() {
-  if (!confirm("不足している装備を素材から装着し、全6部位の装備を1セット消費します。実行しますか？")) return;
-
-  const slots = displaySlots();
-  const materialChanges = new Map();
-  const completedChanges = new Map(slots.map((slot) => [slot, completedFor(slot)]));
-  const missing = [];
-
-  slots.forEach((slot) => {
-    if ((completedChanges.get(slot) || 0) >= 1) return;
-
-    const slotRequirements = requirementsForRank()
-      .map((req) => ({
-        material: materialForRequirement(req, slot),
-        amount: getRequirementAmount(req),
-      }))
-      .filter((item) => item.material);
-
-    const slotMissing = slotRequirements.filter(({ material, amount }) => {
-      const available = materialCount(material.id) - (materialChanges.get(material.id) || 0);
-      return available < amount;
-    });
-
-    if (slotMissing.length > 0) {
-      missing.push(`${SLOT_LABELS[slot]}: ${slotMissing.map(({ material, amount }) => {
-        const available = materialCount(material.id) - (materialChanges.get(material.id) || 0);
-        return `${materialSlotName(material)} ${Math.max(0, amount - available)}`;
-      }).join(" / ")}`);
-    }
-
-    slotRequirements.forEach(({ material, amount }) => {
-      materialChanges.set(material.id, (materialChanges.get(material.id) || 0) + amount);
-    });
-    completedChanges.set(slot, (completedChanges.get(slot) || 0) + 1);
-  });
-
-  if (missing.length > 0) {
-    const shouldContinue = confirm(
-      `装着に必要な素材が足りません。\n${missing.join("\n")}\n\n不足分は0未満にせず、所持数を0まで消費して装着扱いにします。続行しますか？`
-    );
-    if (!shouldContinue) return;
-  }
-
-  slots.forEach((slot) => {
-    state.completed[slot] = { stock: Math.max(0, (completedChanges.get(slot) || 0) - 1) };
-  });
-  materialChanges.forEach((amount, materialId) => {
-    state.materials[materialId] = Math.max(0, materialCount(materialId) - amount);
-  });
-  persistAndRender();
+  window.TRICKCAL_NETWORK?.consumeCharacterEquipment();
 }
 
 function setMaterial(id, value, options = {}) {
@@ -1268,7 +1218,10 @@ function renderExplorationNetwork(shortages) {
 
   if (groups.length === 0) {
     networkGroupKey = "";
-    networkGraph.innerHTML = `<div class="complete-note">不足素材がないため、探索ネットワークはありません。</div>`;
+    activeNetworkController = null;
+    networkGraph.textContent = state.targetRank === 1
+      ? "Rank 1の設計図要求データはありません。"
+      : "不足素材がないため、探索ネットワークはありません。";
     return;
   }
 

@@ -61,8 +61,8 @@
   <main class="layout">
     <section class="band controls-band">
       <div class="field">
-        <label for="rankSelect">目標Rank</label>
-        <select id="rankSelect"></select>
+        <label for="rankSelect">現在Rank</label>
+        <select id="rankSelect" disabled></select>
       </div>
       <div class="field">
         <label for="characterSelect">キャラ選択</label>
@@ -71,7 +71,7 @@
         </select>
       </div>
       <span id="characterDataStatus" class="network-character-data-status" role="status"></span>
-      <button id="consumeEquipmentButton" type="button" class="ghost-button">全装備を装着して消費</button>
+      <button id="consumeEquipmentButton" type="button" class="ghost-button" disabled>全装備を装着して消費</button>
     </section>
 
     <section class="network-character-section" aria-label="選択使徒の装備">

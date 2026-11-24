@@ -183,13 +183,6 @@
   font-size: 12px;
 }
 
-.character-rank button {
-  width: 26px;
-  min-height: 32px;
-  padding: 2px;
-  font-size: 15px;
-}
-
 .character-gears {
   grid-area: gears;
   display: grid;
